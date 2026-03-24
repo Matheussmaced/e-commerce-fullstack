@@ -566,6 +566,212 @@
                 }
             }
         },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Listar produtos",
+                "description": "Retorna todos os produtos cadastrados",
+                "operationId": "a4aaa4f5e98e7123e7803e391a6e4e2d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "abc123"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Notebook"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Notebook gamer"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "example": 5999.9
+                                            },
+                                            "stock": {
+                                                "type": "integer",
+                                                "example": 10
+                                            },
+                                            "category_id": {
+                                                "type": "string",
+                                                "example": "cat123"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Criar produto",
+                "operationId": "3f003bfc0928d1f8bf1867f4314a14c0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "stock",
+                                    "category_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Notebook"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Notebook gamer"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 5999.9
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 10
+                                    },
+                                    "category_id": {
+                                        "type": "string",
+                                        "example": "cat123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produto criado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Buscar produto por ID",
+                "operationId": "f33541f61b52d7d9e18530c19f694590",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "abc123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto encontrado"
+                    },
+                    "404": {
+                        "description": "Produto não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Atualizar produto",
+                "operationId": "f45bfefc8566fe344a21cb1720b699b3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "abc123"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Notebook atualizado"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descrição atualizada"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 4999.9
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 8
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto atualizado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Remover produto",
+                "operationId": "962165106847db5ed0923292384cfb07",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "abc123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto removido"
+                    }
+                }
+            }
+        },
         "/password": {
             "put": {
                 "tags": [
@@ -697,6 +903,10 @@
         {
             "name": "Categories",
             "description": "Gerenciamento de categorias do ecommerce"
+        },
+        {
+            "name": "Products",
+            "description": "Gerenciamento de produtos do ecommerce"
         },
         {
             "name": "Profile",
