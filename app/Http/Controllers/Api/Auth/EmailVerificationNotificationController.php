@@ -6,11 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+use OpenApi\Attributes as OA;
+
 class EmailVerificationNotificationController extends Controller
 {
-    /**
-     * Send a new email verification notification.
-     */
+    #[OA\Post(
+        path: "/email/verification-notification",
+        summary: "Reenviar e-mail de verificação",
+        tags: ["Authentication"],
+        responses: [
+            new OA\Response(response: 302, description: "Redirecionamento com status do envio")
+        ]
+    )]
     public function store(Request $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {

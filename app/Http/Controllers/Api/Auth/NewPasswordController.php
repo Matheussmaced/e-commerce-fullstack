@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
-use Inertia\Response;
+use OpenApi\Attributes as OA;
 
 class NewPasswordController extends Controller
 {
@@ -27,11 +26,27 @@ class NewPasswordController extends Controller
         ]);
     }
 
-    /**
-     * Handle an incoming new password request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    #[OA\Post(
+        path: "/reset-password",
+        summary: "Redefinir senha com token",
+        tags: ["Authentication"],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ["token", "email", "password", "password_confirmation"],
+                properties: [
+                    new OA\Property(property: "token", type: "string", example: "token-string"),
+                    new OA\Property(property: "email", type: "string", format: "email", example: "user@example.com"),
+                    new OA\Property(property: "password", type: "string", format: "password", example: "new-password"),
+                    new OA\Property(property: "password_confirmation", type: "string", format: "password", example: "new-password")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 302, description: "Redirecionamento após redefinição"),
+            new OA\Response(response: 422, description: "Erro de validação")
+        ]
+    )]
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
