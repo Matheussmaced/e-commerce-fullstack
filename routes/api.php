@@ -23,7 +23,7 @@ Route::prefix('v1')->group(function () {
     });
 
     // Verificação de Email
-    Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+    Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('api.v1.verification.verify');
 
     // Rotas Protegidas (Precisa estar logado)
     Route::apiResource('categories', CategoryController::class);

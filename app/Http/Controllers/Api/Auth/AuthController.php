@@ -141,4 +141,11 @@ class AuthController extends Controller
             'message' => 'Tokens Revoked'
         ]);
     }
+
+    public function verifyEmail(Request $request)
+    {
+        // For API, we might want a different response, but the logic is the same.
+        // For now, let's keep it consistent with the web one or just return a JSON.
+        return app(VerifyEmailController::class)($request);
+    }
 }
