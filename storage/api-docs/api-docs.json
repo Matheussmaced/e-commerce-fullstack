@@ -934,6 +934,205 @@
                 }
             }
         },
+        "/api/v1/orders/{order_id}/items": {
+            "get": {
+                "tags": [
+                    "9. Order Items"
+                ],
+                "summary": "Listar itens de um pedido específico",
+                "operationId": "843b7c9d0e97e718288c99f759064cd3",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "ID do pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid-order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de itens do pedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "uuid-item"
+                                            },
+                                            "product_id": {
+                                                "type": "string",
+                                                "example": "uuid-product"
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "unit_price": {
+                                                "type": "number",
+                                                "example": 199.9
+                                            },
+                                            "total_price": {
+                                                "type": "number",
+                                                "example": 399.8
+                                            },
+                                            "product": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Product Name"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/v1/orders": {
+            "get": {
+                "tags": [
+                    "8. Orders"
+                ],
+                "summary": "Listar pedidos do usuário autenticado",
+                "operationId": "4ad79b88c91b0b2a2acc9c3c5eaf98f6",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pedidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "uuid-order"
+                                            },
+                                            "total_amount": {
+                                                "type": "number",
+                                                "example": 399.8
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "pending"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/orders/{id}": {
+            "get": {
+                "tags": [
+                    "8. Orders"
+                ],
+                "summary": "Obter detalhes de um pedido específico",
+                "operationId": "83687a31b77001179fe6a0ab2861c7b4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid-order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do pedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid-order"
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "example": 399.8
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "pending"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string",
+                                                        "example": "uuid-item"
+                                                    },
+                                                    "product_id": {
+                                                        "type": "string",
+                                                        "example": "uuid-product"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "unit_price": {
+                                                        "type": "number",
+                                                        "example": 199.9
+                                                    },
+                                                    "total_price": {
+                                                        "type": "number",
+                                                        "example": 399.8
+                                                    },
+                                                    "product": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Product Name"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    }
+                }
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
@@ -1268,6 +1467,14 @@
         {
             "name": "7. Checkout",
             "description": "7. Checkout"
+        },
+        {
+            "name": "9. Order Items",
+            "description": "9. Order Items"
+        },
+        {
+            "name": "8. Orders",
+            "description": "8. Orders"
         }
     ]
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\CartItem\CartItemController;
 use App\Http\Controllers\Api\Checkout\CheckoutController;
+use App\Http\Controllers\Api\Order\OrderController;
+use App\Http\Controllers\Api\OrderItem\OrderItemController;
 
 Route::prefix('v1')->group(function () {
     // Rotas Públicas (Não precisam de login)
@@ -43,4 +45,9 @@ Route::prefix('v1')->group(function () {
         Route::delete('/cart-items/{id}', [CartItemController::class , 'destroy']);
 
         Route::post('/checkout', [CheckoutController::class, 'store']);
+
+        Route::get('/orders', [OrderController::class, 'index']);
+        Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+        Route::get('/orders/{order_id}/items', [OrderItemController::class, 'index']);
     });
