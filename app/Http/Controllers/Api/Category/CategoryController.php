@@ -47,6 +47,7 @@ class CategoryController extends Controller
         path: "/api/v1/categories",
         summary: "Criar nova categoria",
         tags: ["2. Categories"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -122,6 +123,7 @@ class CategoryController extends Controller
         path: "/api/v1/categories/{id}",
         summary: "Atualizar categoria",
         tags: ["2. Categories"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -165,6 +167,7 @@ class CategoryController extends Controller
         path: "/api/v1/categories/{id}",
         summary: "Remover categoria",
         tags: ["2. Categories"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",

@@ -1,14 +1,14 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Mini Ecommerce API",
-        "description": "API do Mini Ecommerce",
+        "title": "E-commerce API",
+        "description": "API completa para o sistema de E-commerce Fullstack.",
         "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "http://localhost:8000",
-            "description": "Servidor Local"
+            "url": "/",
+            "description": "Servidor de Desenvolvimento"
         }
     ],
     "paths": {
@@ -49,6 +49,11 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "password"
+                                    },
+                                    "role": {
+                                        "description": "Opcional: 'user' ou 'admin'",
+                                        "type": "string",
+                                        "example": "user"
                                     }
                                 },
                                 "type": "object"
@@ -227,7 +232,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/cart-items": {
@@ -299,7 +309,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/cart-items/{id}": {
@@ -358,7 +373,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -395,7 +415,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/carts": {
@@ -433,7 +458,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -486,7 +516,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/carts/{id}": {
@@ -536,7 +571,12 @@
                     "404": {
                         "description": "Carrinho não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -573,7 +613,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/categories": {
@@ -669,7 +714,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/categories/{id}": {
@@ -784,7 +834,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -821,7 +876,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/checkout": {
@@ -931,7 +991,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/orders/{order_id}/items": {
@@ -1001,7 +1066,12 @@
                     "404": {
                         "description": "Pedido não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/orders": {
@@ -1043,7 +1113,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/orders/{id}": {
@@ -1130,7 +1205,12 @@
                     "404": {
                         "description": "Pedido não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/payments": {
@@ -1204,7 +1284,12 @@
                     "400": {
                         "description": "Erro no processamento do pagamento"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/products": {
@@ -1305,7 +1390,12 @@
                     "201": {
                         "description": "Produto criado com sucesso"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/products/{id}": {
@@ -1386,7 +1476,12 @@
                     "200": {
                         "description": "Produto atualizado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1410,7 +1505,12 @@
                     "200": {
                         "description": "Produto removido"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/users": {
@@ -1453,7 +1553,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/v1/users/{id}": {
@@ -1509,7 +1614,21 @@
                     "404": {
                         "description": "Usuário não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },
@@ -1520,23 +1639,19 @@
         },
         {
             "name": "1. Authentication",
-            "description": "Endpoints para autenticação de usuários"
-        },
-        {
-            "name": "2. Categories",
-            "description": "Gerenciamento de categorias"
-        },
-        {
-            "name": "3. Products",
-            "description": "Gerenciamento de produtos"
-        },
-        {
-            "name": "4. Carts",
-            "description": "Gerenciamento de carrinhos"
+            "description": "1. Authentication"
         },
         {
             "name": "6. Cart Items",
             "description": "6. Cart Items"
+        },
+        {
+            "name": "4. Carts",
+            "description": "4. Carts"
+        },
+        {
+            "name": "2. Categories",
+            "description": "2. Categories"
         },
         {
             "name": "7. Checkout",
@@ -1553,6 +1668,10 @@
         {
             "name": "10. Payments",
             "description": "10. Payments"
+        },
+        {
+            "name": "3. Products",
+            "description": "3. Products"
         }
     ]
 }

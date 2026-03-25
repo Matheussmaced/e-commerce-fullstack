@@ -19,6 +19,7 @@ class CheckoutController extends Controller
         path: "/api/v1/checkout",
         summary: "Finalizar checkout do carrinho",
         tags: ["7. Checkout"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(

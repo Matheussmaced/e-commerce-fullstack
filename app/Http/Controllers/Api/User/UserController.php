@@ -14,6 +14,7 @@ class UserController extends Controller
         path: "/api/v1/users",
         summary: "Listar usuários",
         tags: ["5. Users"],
+        security: [["sanctum" => []]],
         responses: [
             new OA\Response(
                 response: 200,
@@ -49,6 +50,7 @@ class UserController extends Controller
         path: "/api/v1/users/{id}",
         summary: "Buscar usuário por ID",
         tags: ["5. Users"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",

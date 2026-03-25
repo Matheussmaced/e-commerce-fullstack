@@ -18,6 +18,7 @@ class OrderItemController extends Controller
         path: "/api/v1/orders/{order_id}/items",
         summary: "Listar itens de um pedido específico",
         tags: ["9. Order Items"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "order_id",

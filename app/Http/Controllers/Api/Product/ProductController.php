@@ -50,6 +50,7 @@ class ProductController extends Controller
         path: "/api/v1/products",
         summary: "Criar produto",
         tags: ["3. Products"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -114,6 +115,7 @@ class ProductController extends Controller
         path: "/api/v1/products/{id}",
         summary: "Atualizar produto",
         tags: ["3. Products"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -152,6 +154,7 @@ class ProductController extends Controller
         path: "/api/v1/products/{id}",
         summary: "Remover produto",
         tags: ["3. Products"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",

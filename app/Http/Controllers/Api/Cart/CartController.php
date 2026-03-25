@@ -18,6 +18,7 @@ class CartController extends Controller
         path: "/api/v1/carts",
         summary: "Listar carrinhos",
         tags: ["4. Carts"],
+        security: [["sanctum" => []]],
         responses: [
             new OA\Response(
                 response: 200,
@@ -46,6 +47,7 @@ class CartController extends Controller
         path: "/api/v1/carts",
         summary: "Criar carrinho",
         tags: ["4. Carts"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -82,6 +84,7 @@ class CartController extends Controller
         path: "/api/v1/carts/{id}",
         summary: "Buscar carrinho por ID",
         tags: ["4. Carts"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -120,6 +123,7 @@ class CartController extends Controller
         path: "/api/v1/carts/{id}",
         summary: "Remover carrinho",
         tags: ["4. Carts"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",

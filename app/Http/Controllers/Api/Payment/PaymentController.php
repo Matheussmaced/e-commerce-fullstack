@@ -19,6 +19,7 @@ class PaymentController extends Controller
         path: "/api/v1/payments",
         summary: "Processar pagamento de um pedido",
         tags: ["10. Payments"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(

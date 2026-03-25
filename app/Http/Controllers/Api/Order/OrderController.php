@@ -18,6 +18,7 @@ class OrderController extends Controller
         path: "/api/v1/orders",
         summary: "Listar pedidos do usuário autenticado",
         tags: ["8. Orders"],
+        security: [["sanctum" => []]],
         responses: [
             new OA\Response(
                 response: 200,
@@ -47,6 +48,7 @@ class OrderController extends Controller
         path: "/api/v1/orders/{id}",
         summary: "Obter detalhes de um pedido específico",
         tags: ["8. Orders"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",

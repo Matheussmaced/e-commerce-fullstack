@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation Guide | Minimalist</title>
+    <title>Complete API Guide | Documentation</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,7 +27,7 @@
         }
 
         .layout {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -52,18 +52,20 @@
             margin-bottom: 20px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 1px;
+            overflow-x: auto;
         }
 
         .tab-trigger {
             background: none;
             border: none;
             color: var(--text-secondary);
-            padding: 8px 16px;
+            padding: 10px 18px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s;
             position: relative;
+            white-space: nowrap;
         }
 
         .tab-trigger:hover { color: var(--text-primary); }
@@ -103,11 +105,12 @@
         .delete { color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
         .desc-list { list-style: none; margin-top: 12px; }
-        .desc-list li { margin-bottom: 12px; color: var(--text-secondary); position: relative; padding-left: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .desc-list li { margin-bottom: 12px; color: var(--text-secondary); position: relative; padding-left: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
         .desc-list li:last-child { border-bottom: none; }
         .desc-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
 
         .status-badge { font-size: 0.75rem; color: var(--text-secondary); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; }
+        .admin-badge { color: #f87171; border-color: rgba(248, 113, 113, 0.3); }
 
         footer { text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border); }
 
@@ -118,184 +121,254 @@
 
 <div class="layout">
     <header>
-        <h1>E-commerce API Guide</h1>
-        <p>A arquitetura e fluxo técnico da sua aplicação.</p>
+        <h1>Complete API Guide</h1>
+        <p>Documentação integral de todos os módulos e fluxos do sistema.</p>
     </header>
 
     <!-- 1. AUTH -->
-    <section class="module-section" data-module="auth">
+    <section class="module-section">
         <div class="module-header">
-            <span class="status-badge">SANCTUM</span>
-            <h2 class="module-title">1. Autenticação</h2>
+            <span class="status-badge">PROTEGIDO (SANCTUM)</span>
+            <h2 class="module-title">1. Autenticação & Segurança</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
             <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
             <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
             <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
         </div>
 
         <div class="tab-content overview active">
-            <p>Gerenciamento de acesso e segurança.</p>
             <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/login</code> - Autentica e retorna token.</li>
-                <li><span class="method post">POST</span> <code>/register</code> - Cria nova conta.</li>
-                <li><span class="method post">POST</span> <code>/logout</code> - Invalida o token atual.</li>
+                <li><span class="method post">POST</span> <code>/login</code> - Autentica e retorna o <strong>Bearer Token</strong>.</li>
+                <li><span class="method post">POST</span> <code>/register</code> - Cria conta (role: <code>user</code> ou <code>admin</code>).</li>
+                <li><span class="method post">POST</span> <code>/logout</code> - Invalida token atual.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>1. O usuário faz POST em <code>/login</code>.<br>2. Recebe um <code>token</code>.<br>3. Armazena no <code>localStorage</code> ou <code>Cookies</code>.<br>4. Envia no Header em todas as outras requisições.</p>
+            <p>1. Usuário envia credenciais.<br>2. Sistema retorna <code>token</code>.<br>3. O Token deve ser enviado no Header <code>Authorization: Bearer {token}</code>.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Register Payload:</strong>
+            <pre>{
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "password": "password",
+  "password_confirmation": "password",
+  "role": "admin" // opcional: 'user' ou 'admin'
+}</pre>
+            <strong>Login Payload:</strong>
+            <pre>{
+  "email": "admin@example.com",
+  "password": "password"
+}</pre>
         </div>
         <div class="tab-content frontend">
-            <pre>const api = axios.create({
-  baseURL: '/api/v1',
-  headers: { Authorization: `Bearer ${token}` }
-});</pre>
+            <pre>const login = async (credentials) => {
+  const { data } = await api.post('/login', credentials);
+  localStorage.setItem('api_token', data.token);
+};</pre>
         </div>
         <div class="tab-content insomnia">
-            <p>Na aba <strong>Auth</strong>, selecione <strong>Bearer Token</strong> e insira o valor retornado pelo login.</p>
+            <p><strong>Configuração:</strong> Vá em Auth -> Bearer Token e cole o valor retornado.</p>
         </div>
     </section>
 
-    <!-- 2. CATALOG -->
-    <section class="module-section" data-module="catalog">
+    <!-- 2. CATEGORIES -->
+    <section class="module-section">
         <div class="module-header">
-            <span class="status-badge">PÚBLICO / PROTEGIDO</span>
-            <h2 class="module-title">2. Catálogo (Produtos & Categorias)</h2>
+            <span class="status-badge">CATÁLOGO</span>
+            <h2 class="module-title">2. Categorias</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
             <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
             <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
             <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
         </div>
 
         <div class="tab-content overview active">
-            <p>Listagem e detalhes de produtos e categorias.</p>
             <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/categories</code> - Lista todas as categorias.</li>
-                <li><span class="method get">GET</span> <code>/products</code> - Lista produtos (com filtros).</li>
-                <li><span class="method get">GET</span> <code>/products/{id}</code> - Detalhes do produto.</li>
+                <li><span class="method get">GET</span> <code>/categories</code> - Listagem pública.</li>
+                <li><span class="method post">POST</span> <code>/categories</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>Os produtos podem ser filtrados por <code>category_id</code> para carregar páginas específicas no frontend.</p>
+            <p>Categorias agrupam produtos. Apenas administradores podem gerenciar as categorias do sistema.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Create/Update Payload:</strong>
+            <pre>{
+  "name": "Eletrônicos",
+  "description": "Smartphones, Laptops e acessórios"
+}</pre>
         </div>
         <div class="tab-content frontend">
-            <pre>const products = await api.get('/products');
-setItems(products.data.data);</pre>
+            <pre>const categories = await api.get('/categories');</pre>
         </div>
         <div class="tab-content insomnia">
-            <p>Basta fazer um GET simples. Se as rotas estiverem protegidas, não esqueça do Bearer Token.</p>
+            <p><strong>POST:</strong> Requer token de um usuário com <code>role: 'admin'</code>.</p>
         </div>
     </section>
 
-    <!-- 3. CART -->
-    <section class="module-section" data-module="cart">
+    <!-- 3. PRODUCTS -->
+    <section class="module-section">
         <div class="module-header">
-            <span class="status-badge">ESTADO ATIVO</span>
-            <h2 class="module-title">3. Carrinho & Itens</h2>
+            <span class="status-badge">CATÁLOGO</span>
+            <h2 class="module-title">3. Produtos</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
             <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
             <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
             <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
         </div>
 
         <div class="tab-content overview active">
-            <p>Gerenciamento temporário de itens antes da compra.</p>
             <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/carts</code> - Cria ou recupera um carrinho.</li>
-                <li><span class="method post">POST</span> <code>/cart-items</code> - Adiciona item ao carrinho.</li>
-                <li><span class="method put">PUT</span> <code>/cart-items/{id}</code> - Altera quantidade.</li>
-                <li><span class="method delete">DELETE</span> <code>/cart-items/{id}</code> - Remove item.</li>
+                <li><span class="method get">GET</span> <code>/products</code> - Listagem pública.</li>
+                <li><span class="method post">POST</span> <code>/products</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>O <code>cart_id</code> é a âncora aqui. No frontend, você deve salvar o <code>cart_id</code> do usuário para adicionar produtos a ele.</p>
+            <p>Produtos são vinculados a uma categoria via <code>category_id</code>. O estoque é reduzido no checkout.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Create/Update Payload:</strong>
+            <pre>{
+  "category_id": "uuid-da-categoria",
+  "name": "iPhone 15 Pro",
+  "description": "128GB, Space Gray",
+  "price": 8999.90,
+  "stock": 50
+}</pre>
         </div>
         <div class="tab-content frontend">
-            <pre>await api.post('/cart-items', { 
-  cart_id: activeCartId, 
-  product_id: p.id, 
-  quantity: 1 
-});</pre>
+            <pre>const products = await api.get('/products');</pre>
         </div>
         <div class="tab-content insomnia">
-            <p>Body esperado no items: <code>{ "cart_id": "...", "product_id": "...", "quantity": 1 }</code></p>
+            <p>Use Query Params para filtros: <code>?category_id=...</code></p>
         </div>
     </section>
 
-    <!-- 4. CHECKOUT & PAYMENTS -->
-    <section class="module-section" data-module="checkout">
+    <!-- 4. CARTS -->
+    <section class="module-section">
+        <div class="module-header">
+            <span class="status-badge">USER AREA</span>
+            <h2 class="module-title">4. Carrinhos</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
+
+        <div class="tab-content overview active">
+            <ul class="desc-list">
+                <li><span class="method post">POST</span> <code>/carts</code> - Recuperar carrinho ativo.</li>
+                <li><span class="method post">POST</span> <code>/cart-items</code> - Adicionar produto.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>O carrinho é persistente por usuário logado. Salve o ID retornado pelo <code>/carts</code>.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Add Item Payload:</strong>
+            <pre>{
+  "cart_id": "uuid-do-carrinho",
+  "product_id": "uuid-do-produto",
+  "quantity": 1
+}</pre>
+        </div>
+        <div class="tab-content frontend">
+            <pre>await api.post('/cart-items', { cart_id, product_id, quantity });</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Crie um carrinho vazio primeiro via <code>POST /carts</code>.</p>
+        </div>
+    </section>
+
+    <!-- 5. CHECKOUT & ORDERS -->
+    <section class="module-section">
         <div class="module-header">
             <span class="status-badge">FINALIZAÇÃO</span>
-            <h2 class="module-title">4. Checkout & Pagamentos</h2>
+            <h2 class="module-title">5. Checkout & Pedidos</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
             <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
             <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
             <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
         </div>
 
         <div class="tab-content overview active">
-            <p>Conversão de carrinho em pedido e liquidação.</p>
             <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/checkout</code> - Cria o Pedido (Order).</li>
-                <li><span class="method post">POST</span> <code>/payments</code> - Processa o valor.</li>
+                <li><span class="method post">POST</span> <code>/checkout</code> - Finalizar carrinho.</li>
+                <li><span class="method get">GET</span> <code>/orders</code> - Meus pedidos.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>1. <strong>Checkout</strong>: Valida estoque e zera o carrinho.<br>2. <strong>Payment</strong>: Recebe o <code>order_id</code> e muda o status do pedido para <code>paid</code>.</p>
+            <p>O Checkout limpa o carrinho e gera um Pedido Pendente.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Checkout Payload:</strong>
+            <pre>{
+  "cart_id": "uuid-do-carrinho"
+}</pre>
         </div>
         <div class="tab-content frontend">
-            <pre>const order = await api.post('/checkout', { cart_id });
-await api.post('/payments', { 
-  order_id: order.data.id, 
-  payment_method: 'pix' 
-});</pre>
+            <pre>const order = await api.post('/checkout', { cart_id });</pre>
         </div>
         <div class="tab-content insomnia">
-            <p>Sequência: Primeiro Checkout, pegue o <code>id</code> retornado, então mande no Payments.</p>
+            <p>Copie o ID do pedido retornado para usar no pagamento.</p>
         </div>
     </section>
 
-    <!-- 5. ORDERS -->
-    <section class="module-section" data-module="orders">
+    <!-- 6. PAYMENTS -->
+    <section class="module-section">
         <div class="module-header">
-            <span class="status-badge">HISTÓRICO</span>
-            <h2 class="module-title">5. Pedidos (Orders)</h2>
+            <span class="status-badge">LIQUIDAÇÃO</span>
+            <h2 class="module-title">6. Pagamentos</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
             <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
             <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
             <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
         </div>
 
         <div class="tab-content overview active">
-            <p>Acompanhamento de compras realizadas.</p>
             <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/orders</code> - Lista todos os pedidos do usuário.</li>
-                <li><span class="method get">GET</span> <code>/orders/{id}</code> - Detalhes completos e itens.</li>
+                <li><span class="method post">POST</span> <code>/payments</code> - Pagar pedido.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>Após o pagamento bem-sucedido, o pedido permanece no sistema com status <code>paid</code>. O usuário pode consultar o histórico a qualquer momento.</p>
+            <p>Muda status para <code>paid</code> e encerra o ciclo de compra.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Payment Payload:</strong>
+            <pre>{
+  "order_id": "uuid-do-pedido",
+  "payment_method": "pix" // pix, credit_card ou boleto
+}</pre>
         </div>
         <div class="tab-content frontend">
-            <pre>const myOrders = await api.get('/orders');
-const details = await api.get(`/orders/${orderId}`);</pre>
+            <pre>await api.post('/payments', { order_id, payment_method });</pre>
         </div>
         <div class="tab-content insomnia">
-            <p>Use o GET simples com o ID do pedido no final da URL.</p>
+            <p>O sistema simula uma transação imediata.</p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Minimalist API Guide. Foco em clareza e performance.</p>
+        <p>&copy; 2026 Ultimate API Guide. Enhanced for Developers.</p>
     </footer>
 </div>
 
