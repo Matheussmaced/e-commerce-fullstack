@@ -3,194 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Commerce API Documentation</title>
+    <title>API Documentation Guide | Minimalist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --bg: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --accent: #3b82f6;
+            --accent-soft: rgba(59, 130, 246, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--bg);
-            color: var(--text);
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1200px;
+        .layout {
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 40px 20px;
         }
 
         header {
-            text-align: center;
-            padding: 4rem 0;
-            background: radial-gradient(circle at top, rgba(99, 102, 241, 0.15), transparent);
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        header h1 { font-weight: 600; font-size: 2.5rem; letter-spacing: -0.02em; color: var(--text-primary); }
+        header p { color: var(--text-secondary); margin-top: 8px; font-size: 1.1rem; }
+
+        .module-section { margin-bottom: 80px; }
+        .module-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .module-title { font-size: 1.5rem; font-weight: 500; }
+
+        /* Tabs System */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1px;
         }
 
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        .tab-trigger {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
         }
 
-        .endpoint {
-            margin-bottom: 3rem;
+        .tab-trigger:hover { color: var(--text-primary); }
+        .tab-trigger.active { color: var(--accent); }
+        .tab-trigger.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--accent);
         }
 
-        .method {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.875rem;
-            margin-right: 1rem;
-        }
+        .tab-content { display: none; padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 
-        .get { background: #10b981; color: white; }
-        .post { background: #3b82f6; color: white; }
-        .put { background: #f59e0b; color: white; }
-        .delete { background: #ef4444; color: white; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            color: #d1d5db;
-        }
-
+        /* Code & Pre */
         pre {
-            background: #1e293b;
-            padding: 1.5rem;
-            border-radius: 12px;
+            background: #000;
+            padding: 16px;
+            border-radius: 8px;
             overflow-x: auto;
-            margin: 1rem 0;
+            color: #d4d4d4;
+            font-size: 0.85rem;
+            font-family: 'Fira Code', monospace;
             border: 1px solid var(--border);
+            margin: 12px 0;
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-            border-left: 4px solid var(--primary);
-            padding-left: 1rem;
-        }
+        .method { font-weight: 600; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; margin-right: 8px; }
+        .get { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+        .post { color: #60a5fa; background: rgba(96, 165, 250, 0.1); }
+        .put { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+        .delete { color: #f87171; background: rgba(248, 113, 113, 0.1); }
 
-        .frontend-guide {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-        }
+        .desc-list { list-style: none; margin-top: 12px; }
+        .desc-list li { margin-bottom: 12px; color: var(--text-secondary); position: relative; padding-left: 20px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .desc-list li:last-child { border-bottom: none; }
+        .desc-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
 
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 999px;
-            background: var(--primary);
-            margin-left: 0.5rem;
-        }
+        .status-badge { font-size: 0.75rem; color: var(--text-secondary); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; }
 
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            color: var(--text-muted);
-        }
+        footer { text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border); }
+
+        strong { color: var(--text-primary); }
     </style>
 </head>
 <body>
+
+<div class="layout">
     <header>
-        <div class="container">
-            <h1>API Documentation</h1>
-            <p>Guia completo para integração do E-commerce Fullstack</p>
-        </div>
+        <h1>E-commerce API Guide</h1>
+        <p>A arquitetura e fluxo técnico da sua aplicação.</p>
     </header>
 
-    <div class="container">
-        <section class="endpoint">
-            <h2 class="section-title">Autenticação</h2>
-            <div class="glass-card">
-                <p><span class="method post">POST</span> <code>/api/v1/login</code></p>
-                <p>Use para obter o token de acesso Sanctum.</p>
-                <pre>{ "email": "user@example.com", "password": "password" }</pre>
-            </div>
-        </section>
+    <!-- 1. AUTH -->
+    <section class="module-section" data-module="auth">
+        <div class="module-header">
+            <span class="status-badge">SANCTUM</span>
+            <h2 class="module-title">1. Autenticação</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
 
-        <section class="endpoint">
-            <h2 class="section-title">Carrinho & Itens</h2>
-            <div class="glass-card">
-                <p><span class="method post">POST</span> <code>/api/v1/cart-items</code></p>
-                <p>Adiciona um produto ao carrinho.</p>
-                <pre>{ "cart_id": "uuid", "product_id": "uuid", "quantity": 1 }</pre>
-            </div>
-        </section>
+        <div class="tab-content overview active">
+            <p>Gerenciamento de acesso e segurança.</p>
+            <ul class="desc-list">
+                <li><span class="method post">POST</span> <code>/login</code> - Autentica e retorna token.</li>
+                <li><span class="method post">POST</span> <code>/register</code> - Cria nova conta.</li>
+                <li><span class="method post">POST</span> <code>/logout</code> - Invalida o token atual.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>1. O usuário faz POST em <code>/login</code>.<br>2. Recebe um <code>token</code>.<br>3. Armazena no <code>localStorage</code> ou <code>Cookies</code>.<br>4. Envia no Header em todas as outras requisições.</p>
+        </div>
+        <div class="tab-content frontend">
+            <pre>const api = axios.create({
+  baseURL: '/api/v1',
+  headers: { Authorization: `Bearer ${token}` }
+});</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Na aba <strong>Auth</strong>, selecione <strong>Bearer Token</strong> e insira o valor retornado pelo login.</p>
+        </div>
+    </section>
 
-        <section class="endpoint">
-            <h2 class="section-title">Checkout & Pagamento</h2>
-            <div class="glass-card frontend-guide">
-                <h3>Passo a Passo da Integração</h3>
-                <ol>
-                    <li><strong>Checkout:</strong> Envie o <code>cart_id</code> para <code>POST /api/v1/checkout</code>. Isso converterá o carrinho em um Pedido (Order) com status <code>pending</code>.</li>
-                    <li><strong>Pagamento:</strong> Receba o <code>order_id</code> retornado e envie para <code>POST /api/v1/payments</code> junto com o método de pagamento.</li>
-                </ol>
-            </div>
-        </section>
+    <!-- 2. CATALOG -->
+    <section class="module-section" data-module="catalog">
+        <div class="module-header">
+            <span class="status-badge">PÚBLICO / PROTEGIDO</span>
+            <h2 class="module-title">2. Catálogo (Produtos & Categorias)</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
 
-        <section class="endpoint">
-            <h2 class="section-title">Implementação no Frontend (Axios)</h2>
-            <div class="glass-card">
-                <pre>
-import axios from 'axios';
+        <div class="tab-content overview active">
+            <p>Listagem e detalhes de produtos e categorias.</p>
+            <ul class="desc-list">
+                <li><span class="method get">GET</span> <code>/categories</code> - Lista todas as categorias.</li>
+                <li><span class="method get">GET</span> <code>/products</code> - Lista produtos (com filtros).</li>
+                <li><span class="method get">GET</span> <code>/products/{id}</code> - Detalhes do produto.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>Os produtos podem ser filtrados por <code>category_id</code> para carregar páginas específicas no frontend.</p>
+        </div>
+        <div class="tab-content frontend">
+            <pre>const products = await api.get('/products');
+setItems(products.data.data);</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Basta fazer um GET simples. Se as rotas estiverem protegidas, não esqueça do Bearer Token.</p>
+        </div>
+    </section>
 
-const api = axios.create({
-    baseURL: 'http://localhost/api/v1',
-    headers: { Authorization: `Bearer ${token}` }
-});
+    <!-- 3. CART -->
+    <section class="module-section" data-module="cart">
+        <div class="module-header">
+            <span class="status-badge">ESTADO ATIVO</span>
+            <h2 class="module-title">3. Carrinho & Itens</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
 
-// Exemplo: Finalizar Compra
-const handleCheckout = async (cartId) => {
-    try {
-        const { data: order } = await api.post('/checkout', { cart_id: cartId });
-        const { data: payment } = await api.post('/payments', { 
-            order_id: order.id, 
-            payment_method: 'pix' 
-        });
-        alert('Pagamento aprovado!');
-    } catch (err) {
-        console.error('Erro no checkout', err);
-    }
-};
-                </pre>
-            </div>
-        </section>
-    </div>
+        <div class="tab-content overview active">
+            <p>Gerenciamento temporário de itens antes da compra.</p>
+            <ul class="desc-list">
+                <li><span class="method post">POST</span> <code>/carts</code> - Cria ou recupera um carrinho.</li>
+                <li><span class="method post">POST</span> <code>/cart-items</code> - Adiciona item ao carrinho.</li>
+                <li><span class="method put">PUT</span> <code>/cart-items/{id}</code> - Altera quantidade.</li>
+                <li><span class="method delete">DELETE</span> <code>/cart-items/{id}</code> - Remove item.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>O <code>cart_id</code> é a âncora aqui. No frontend, você deve salvar o <code>cart_id</code> do usuário para adicionar produtos a ele.</p>
+        </div>
+        <div class="tab-content frontend">
+            <pre>await api.post('/cart-items', { 
+  cart_id: activeCartId, 
+  product_id: p.id, 
+  quantity: 1 
+});</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Body esperado no items: <code>{ "cart_id": "...", "product_id": "...", "quantity": 1 }</code></p>
+        </div>
+    </section>
+
+    <!-- 4. CHECKOUT & PAYMENTS -->
+    <section class="module-section" data-module="checkout">
+        <div class="module-header">
+            <span class="status-badge">FINALIZAÇÃO</span>
+            <h2 class="module-title">4. Checkout & Pagamentos</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
+
+        <div class="tab-content overview active">
+            <p>Conversão de carrinho em pedido e liquidação.</p>
+            <ul class="desc-list">
+                <li><span class="method post">POST</span> <code>/checkout</code> - Cria o Pedido (Order).</li>
+                <li><span class="method post">POST</span> <code>/payments</code> - Processa o valor.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>1. <strong>Checkout</strong>: Valida estoque e zera o carrinho.<br>2. <strong>Payment</strong>: Recebe o <code>order_id</code> e muda o status do pedido para <code>paid</code>.</p>
+        </div>
+        <div class="tab-content frontend">
+            <pre>const order = await api.post('/checkout', { cart_id });
+await api.post('/payments', { 
+  order_id: order.data.id, 
+  payment_method: 'pix' 
+});</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Sequência: Primeiro Checkout, pegue o <code>id</code> retornado, então mande no Payments.</p>
+        </div>
+    </section>
+
+    <!-- 5. ORDERS -->
+    <section class="module-section" data-module="orders">
+        <div class="module-header">
+            <span class="status-badge">HISTÓRICO</span>
+            <h2 class="module-title">5. Pedidos (Orders)</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
+
+        <div class="tab-content overview active">
+            <p>Acompanhamento de compras realizadas.</p>
+            <ul class="desc-list">
+                <li><span class="method get">GET</span> <code>/orders</code> - Lista todos os pedidos do usuário.</li>
+                <li><span class="method get">GET</span> <code>/orders/{id}</code> - Detalhes completos e itens.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>Após o pagamento bem-sucedido, o pedido permanece no sistema com status <code>paid</code>. O usuário pode consultar o histórico a qualquer momento.</p>
+        </div>
+        <div class="tab-content frontend">
+            <pre>const myOrders = await api.get('/orders');
+const details = await api.get(`/orders/${orderId}`);</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>Use o GET simples com o ID do pedido no final da URL.</p>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2026 E-commerce API Guide - Premium Documentation</p>
+        <p>&copy; 2026 Minimalist API Guide. Foco em clareza e performance.</p>
     </footer>
+</div>
+
+<script>
+    function showTab(trigger, tabClass) {
+        const section = trigger.closest('.module-section');
+        section.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+        trigger.classList.add('active');
+        section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        section.querySelector(`.tab-content.${tabClass}`).classList.add('active');
+    }
+</script>
+
 </body>
 </html>
