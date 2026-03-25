@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce API Documentation</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            background: radial-gradient(circle at top, rgba(99, 102, 241, 0.15), transparent);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .endpoint {
+            margin-bottom: 3rem;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            margin-right: 1rem;
+        }
+
+        .get { background: #10b981; color: white; }
+        .post { background: #3b82f6; color: white; }
+        .put { background: #f59e0b; color: white; }
+        .delete { background: #ef4444; color: white; }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            color: #d1d5db;
+        }
+
+        pre {
+            background: #1e293b;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+        }
+
+        .frontend-guide {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            background: var(--primary);
+            margin-left: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>API Documentation</h1>
+            <p>Guia completo para integração do E-commerce Fullstack</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="endpoint">
+            <h2 class="section-title">Autenticação</h2>
+            <div class="glass-card">
+                <p><span class="method post">POST</span> <code>/api/v1/login</code></p>
+                <p>Use para obter o token de acesso Sanctum.</p>
+                <pre>{ "email": "user@example.com", "password": "password" }</pre>
+            </div>
+        </section>
+
+        <section class="endpoint">
+            <h2 class="section-title">Carrinho & Itens</h2>
+            <div class="glass-card">
+                <p><span class="method post">POST</span> <code>/api/v1/cart-items</code></p>
+                <p>Adiciona um produto ao carrinho.</p>
+                <pre>{ "cart_id": "uuid", "product_id": "uuid", "quantity": 1 }</pre>
+            </div>
+        </section>
+
+        <section class="endpoint">
+            <h2 class="section-title">Checkout & Pagamento</h2>
+            <div class="glass-card frontend-guide">
+                <h3>Passo a Passo da Integração</h3>
+                <ol>
+                    <li><strong>Checkout:</strong> Envie o <code>cart_id</code> para <code>POST /api/v1/checkout</code>. Isso converterá o carrinho em um Pedido (Order) com status <code>pending</code>.</li>
+                    <li><strong>Pagamento:</strong> Receba o <code>order_id</code> retornado e envie para <code>POST /api/v1/payments</code> junto com o método de pagamento.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="endpoint">
+            <h2 class="section-title">Implementação no Frontend (Axios)</h2>
+            <div class="glass-card">
+                <pre>
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost/api/v1',
+    headers: { Authorization: `Bearer ${token}` }
+});
+
+// Exemplo: Finalizar Compra
+const handleCheckout = async (cartId) => {
+    try {
+        const { data: order } = await api.post('/checkout', { cart_id: cartId });
+        const { data: payment } = await api.post('/payments', { 
+            order_id: order.id, 
+            payment_method: 'pix' 
+        });
+        alert('Pagamento aprovado!');
+    } catch (err) {
+        console.error('Erro no checkout', err);
+    }
+};
+                </pre>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 E-commerce API Guide - Premium Documentation</p>
+    </footer>
+</body>
+</html>

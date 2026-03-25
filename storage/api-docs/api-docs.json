@@ -1133,6 +1133,80 @@
                 }
             }
         },
+        "/api/v1/payments": {
+            "post": {
+                "tags": [
+                    "10. Payments"
+                ],
+                "summary": "Processar pagamento de um pedido",
+                "operationId": "6e4b1f82dbb685164fa49674e3c493be",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "order_id",
+                                    "payment_method"
+                                ],
+                                "properties": {
+                                    "order_id": {
+                                        "type": "string",
+                                        "example": "uuid-order"
+                                    },
+                                    "payment_method": {
+                                        "type": "string",
+                                        "example": "pix"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pagamento processado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid-payment"
+                                        },
+                                        "order_id": {
+                                            "type": "string",
+                                            "example": "uuid-order"
+                                        },
+                                        "amount": {
+                                            "type": "number",
+                                            "example": 399.8
+                                        },
+                                        "payment_method": {
+                                            "type": "string",
+                                            "example": "pix"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "paid"
+                                        },
+                                        "transaction_id": {
+                                            "type": "string",
+                                            "example": "TXN-123456"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro no processamento do pagamento"
+                    }
+                }
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
@@ -1475,6 +1549,10 @@
         {
             "name": "8. Orders",
             "description": "8. Orders"
+        },
+        {
+            "name": "10. Payments",
+            "description": "10. Payments"
         }
     ]
 }

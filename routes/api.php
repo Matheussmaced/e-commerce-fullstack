@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CartItem\CartItemController;
 use App\Http\Controllers\Api\Checkout\CheckoutController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\OrderItem\OrderItemController;
+use App\Http\Controllers\Api\Payment\PaymentController;
 
 Route::prefix('v1')->group(function () {
     // Rotas Públicas (Não precisam de login)
@@ -50,4 +51,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/orders/{id}', [OrderController::class, 'show']);
 
         Route::get('/orders/{order_id}/items', [OrderItemController::class, 'index']);
+
+        Route::post('/payments', [PaymentController::class, 'store']);
     });
