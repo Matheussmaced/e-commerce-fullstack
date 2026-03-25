@@ -15,7 +15,7 @@ class AuthController extends Controller
     #[OA\Post(
         path: "/api/v1/register",
         summary: "Registrar novo usuário (API)",
-        tags: ["Authentication"],
+        tags: ["1. Authentication"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -69,7 +69,7 @@ class AuthController extends Controller
     #[OA\Post(
         path: "/api/v1/login",
         summary: "Realizar login (API)",
-        tags: ["Authentication"],
+        tags: ["1. Authentication"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -119,7 +119,7 @@ class AuthController extends Controller
     #[OA\Post(
         path: "/api/v1/logout",
         summary: "Realizar logout (API)",
-        tags: ["Authentication"],
+        tags: ["1. Authentication"],
         security: [["sanctum" => []]],
         responses: [
             new OA\Response(

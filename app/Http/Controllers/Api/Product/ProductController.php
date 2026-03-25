@@ -18,7 +18,7 @@ class ProductController extends Controller
         path: "/api/v1/products",
         summary: "Listar produtos",
         description: "Retorna todos os produtos cadastrados",
-        tags: ["Products"],
+        tags: ["3. Products"],
         responses: [
             new OA\Response(
                 response: 200,
@@ -49,7 +49,7 @@ class ProductController extends Controller
     #[OA\Post(
         path: "/api/v1/products",
         summary: "Criar produto",
-        tags: ["Products"],
+        tags: ["3. Products"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -82,7 +82,7 @@ class ProductController extends Controller
     #[OA\Get(
         path: "/api/v1/products/{id}",
         summary: "Buscar produto por ID",
-        tags: ["Products"],
+        tags: ["3. Products"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -113,7 +113,7 @@ class ProductController extends Controller
     #[OA\Put(
         path: "/api/v1/products/{id}",
         summary: "Atualizar produto",
-        tags: ["Products"],
+        tags: ["3. Products"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -151,7 +151,7 @@ class ProductController extends Controller
     #[OA\Delete(
         path: "/api/v1/products/{id}",
         summary: "Remover produto",
-        tags: ["Products"],
+        tags: ["3. Products"],
         parameters: [
             new OA\Parameter(
                 name: "id",

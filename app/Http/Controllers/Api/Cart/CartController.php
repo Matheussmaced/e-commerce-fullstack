@@ -17,7 +17,7 @@ class CartController extends Controller
     #[OA\Get(
         path: "/api/v1/carts",
         summary: "Listar carrinhos",
-        tags: ["Carts"],
+        tags: ["4. Carts"],
         responses: [
             new OA\Response(
                 response: 200,
@@ -45,7 +45,7 @@ class CartController extends Controller
     #[OA\Post(
         path: "/api/v1/carts",
         summary: "Criar carrinho",
-        tags: ["Carts"],
+        tags: ["4. Carts"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -81,7 +81,7 @@ class CartController extends Controller
     #[OA\Get(
         path: "/api/v1/carts/{id}",
         summary: "Buscar carrinho por ID",
-        tags: ["Carts"],
+        tags: ["4. Carts"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -119,7 +119,7 @@ class CartController extends Controller
     #[OA\Delete(
         path: "/api/v1/carts/{id}",
         summary: "Remover carrinho",
-        tags: ["Carts"],
+        tags: ["4. Carts"],
         parameters: [
             new OA\Parameter(
                 name: "id",

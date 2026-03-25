@@ -18,7 +18,7 @@ class CategoryController extends Controller
         path: "/api/v1/categories",
         summary: "Listar todas as categorias",
         description: "Retorna uma lista de categorias cadastradas",
-        tags: ["Categories"],
+        tags: ["2. Categories"],
         responses: [
             new OA\Response(
                 response: 200,
@@ -46,7 +46,7 @@ class CategoryController extends Controller
     #[OA\Post(
         path: "/api/v1/categories",
         summary: "Criar nova categoria",
-        tags: ["Categories"],
+        tags: ["2. Categories"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -83,7 +83,7 @@ class CategoryController extends Controller
     #[OA\Get(
         path: "/api/v1/categories/{id}",
         summary: "Buscar categoria por ID",
-        tags: ["Categories"],
+        tags: ["2. Categories"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -121,7 +121,7 @@ class CategoryController extends Controller
     #[OA\Put(
         path: "/api/v1/categories/{id}",
         summary: "Atualizar categoria",
-        tags: ["Categories"],
+        tags: ["2. Categories"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -164,7 +164,7 @@ class CategoryController extends Controller
     #[OA\Delete(
         path: "/api/v1/categories/{id}",
         summary: "Remover categoria",
-        tags: ["Categories"],
+        tags: ["2. Categories"],
         parameters: [
             new OA\Parameter(
                 name: "id",

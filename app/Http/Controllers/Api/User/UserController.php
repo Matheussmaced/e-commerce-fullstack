@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use OpenApi\Attributes as OA;
 
-#[OA\Tag(name: "Users", description: "Gerenciamento de usuários")]
+#[OA\Tag(name: "5. Users", description: "Gerenciamento de usuários")]
 class UserController extends Controller
 {
 
     #[OA\Get(
         path: "/api/v1/users",
         summary: "Listar usuários",
-        tags: ["Users"],
+        tags: ["5. Users"],
         responses: [
             new OA\Response(
                 response: 200,
@@ -48,7 +48,7 @@ class UserController extends Controller
     #[OA\Get(
         path: "/api/v1/users/{id}",
         summary: "Buscar usuário por ID",
-        tags: ["Users"],
+        tags: ["5. Users"],
         parameters: [
             new OA\Parameter(
                 name: "id",

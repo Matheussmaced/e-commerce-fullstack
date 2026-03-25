@@ -15,7 +15,7 @@
         "/api/v1/register": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "1. Authentication"
                 ],
                 "summary": "Registrar novo usuário (API)",
                 "operationId": "6a59abd9cd73a27f95e6d2936c7f6fcf",
@@ -88,7 +88,7 @@
         "/api/v1/login": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "1. Authentication"
                 ],
                 "summary": "Realizar login (API)",
                 "operationId": "d5a2f1a3a57ed6c8691702e6afe6b179",
@@ -147,7 +147,7 @@
         "/api/v1/logout": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "1. Authentication"
                 ],
                 "summary": "Realizar logout (API)",
                 "operationId": "ccbc86cef7f8c1b3f1e6b3e4822f5493",
@@ -179,7 +179,7 @@
         "/api/v1/carts": {
             "get": {
                 "tags": [
-                    "Carts"
+                    "4. Carts"
                 ],
                 "summary": "Listar carrinhos",
                 "operationId": "e7cb526061233fa78f9e02fa9b738abc",
@@ -215,7 +215,7 @@
             },
             "post": {
                 "tags": [
-                    "Carts"
+                    "4. Carts"
                 ],
                 "summary": "Criar carrinho",
                 "operationId": "dd2d30246174cb98b9609f714873909a",
@@ -270,7 +270,7 @@
         "/api/v1/carts/{id}": {
             "get": {
                 "tags": [
-                    "Carts"
+                    "4. Carts"
                 ],
                 "summary": "Buscar carrinho por ID",
                 "operationId": "533ed6d948ca11ef210ae76ba2d4b2e8",
@@ -318,7 +318,7 @@
             },
             "delete": {
                 "tags": [
-                    "Carts"
+                    "4. Carts"
                 ],
                 "summary": "Remover carrinho",
                 "operationId": "e022dbda762e7f7395f5cb486e3fd4f3",
@@ -357,7 +357,7 @@
         "/api/v1/categories": {
             "get": {
                 "tags": [
-                    "Categories"
+                    "2. Categories"
                 ],
                 "summary": "Listar todas as categorias",
                 "description": "Retorna uma lista de categorias cadastradas",
@@ -394,7 +394,7 @@
             },
             "post": {
                 "tags": [
-                    "Categories"
+                    "2. Categories"
                 ],
                 "summary": "Criar nova categoria",
                 "operationId": "297b8accf0b4970c1aaf1017b68305b3",
@@ -453,7 +453,7 @@
         "/api/v1/categories/{id}": {
             "get": {
                 "tags": [
-                    "Categories"
+                    "2. Categories"
                 ],
                 "summary": "Buscar categoria por ID",
                 "operationId": "f31faaea23a0941bcc0b82904def396f",
@@ -501,7 +501,7 @@
             },
             "put": {
                 "tags": [
-                    "Categories"
+                    "2. Categories"
                 ],
                 "summary": "Atualizar categoria",
                 "operationId": "60dbed8d796dc08e84f56988186e34a4",
@@ -566,7 +566,7 @@
             },
             "delete": {
                 "tags": [
-                    "Categories"
+                    "2. Categories"
                 ],
                 "summary": "Remover categoria",
                 "operationId": "ba7403f18157056df7e5a179ba8b953d",
@@ -605,7 +605,7 @@
         "/api/v1/products": {
             "get": {
                 "tags": [
-                    "Products"
+                    "3. Products"
                 ],
                 "summary": "Listar produtos",
                 "description": "Retorna todos os produtos cadastrados",
@@ -654,7 +654,7 @@
             },
             "post": {
                 "tags": [
-                    "Products"
+                    "3. Products"
                 ],
                 "summary": "Criar produto",
                 "operationId": "3f003bfc0928d1f8bf1867f4314a14c0",
@@ -706,7 +706,7 @@
         "/api/v1/products/{id}": {
             "get": {
                 "tags": [
-                    "Products"
+                    "3. Products"
                 ],
                 "summary": "Buscar produto por ID",
                 "operationId": "f33541f61b52d7d9e18530c19f694590",
@@ -733,7 +733,7 @@
             },
             "put": {
                 "tags": [
-                    "Products"
+                    "3. Products"
                 ],
                 "summary": "Atualizar produto",
                 "operationId": "f45bfefc8566fe344a21cb1720b699b3",
@@ -785,7 +785,7 @@
             },
             "delete": {
                 "tags": [
-                    "Products"
+                    "3. Products"
                 ],
                 "summary": "Remover produto",
                 "operationId": "962165106847db5ed0923292384cfb07",
@@ -811,7 +811,7 @@
         "/api/v1/users": {
             "get": {
                 "tags": [
-                    "Users"
+                    "5. Users"
                 ],
                 "summary": "Listar usuários",
                 "operationId": "83119c699fe97cfb2fb004cebc287051",
@@ -854,7 +854,7 @@
         "/api/v1/users/{id}": {
             "get": {
                 "tags": [
-                    "Users"
+                    "5. Users"
                 ],
                 "summary": "Buscar usuário por ID",
                 "operationId": "0ec22789399cf07e1f632924a4ca2815",
@@ -910,24 +910,24 @@
     },
     "tags": [
         {
-            "name": "Carts",
-            "description": "Gerenciamento de carrinhos do ecommerce"
-        },
-        {
-            "name": "Categories",
-            "description": "Gerenciamento de categorias do ecommerce"
-        },
-        {
-            "name": "Products",
-            "description": "Gerenciamento de produtos do ecommerce"
-        },
-        {
-            "name": "Users",
+            "name": "5. Users",
             "description": "Gerenciamento de usuários"
         },
         {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "1. Authentication",
+            "description": "Endpoints para autenticação de usuários"
+        },
+        {
+            "name": "2. Categories",
+            "description": "Gerenciamento de categorias"
+        },
+        {
+            "name": "3. Products",
+            "description": "Gerenciamento de produtos"
+        },
+        {
+            "name": "4. Carts",
+            "description": "Gerenciamento de carrinhos"
         }
     ]
 }
