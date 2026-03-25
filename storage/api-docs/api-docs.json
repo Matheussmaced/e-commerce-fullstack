@@ -176,6 +176,228 @@
                 ]
             }
         },
+        "/api/v1/carts/{cart_id}/items": {
+            "get": {
+                "tags": [
+                    "6. Cart Items"
+                ],
+                "summary": "Listar itens do carrinho",
+                "operationId": "0f5c3b84f2f47bf8dde8cdf701ab2b7a",
+                "parameters": [
+                    {
+                        "name": "cart_id",
+                        "in": "path",
+                        "description": "ID do carrinho",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid-cart"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de itens do carrinho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "uuid-item"
+                                            },
+                                            "product_id": {
+                                                "type": "string",
+                                                "example": "uuid-product"
+                                            },
+                                            "quantity": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "example": 199.9
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cart-items": {
+            "post": {
+                "tags": [
+                    "6. Cart Items"
+                ],
+                "summary": "Adicionar item ao carrinho",
+                "operationId": "19a77be3420e41454393bb09b52653c2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cart_id",
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "cart_id": {
+                                        "type": "string",
+                                        "example": "uuid-cart"
+                                    },
+                                    "product_id": {
+                                        "type": "string",
+                                        "example": "uuid-product"
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item adicionado ao carrinho",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid-item"
+                                        },
+                                        "cart_id": {
+                                            "type": "string",
+                                            "example": "uuid-cart"
+                                        },
+                                        "product_id": {
+                                            "type": "string",
+                                            "example": "uuid-product"
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 199.9
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/cart-items/{id}": {
+            "put": {
+                "tags": [
+                    "6. Cart Items"
+                ],
+                "summary": "Atualizar quantidade do item",
+                "operationId": "c01e44eefe8d219b4e6dd41e328fca25",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do item do carrinho",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid-item"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid-item"
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 3
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "6. Cart Items"
+                ],
+                "summary": "Remover item do carrinho",
+                "operationId": "539b4ab24ea48c3826384f05aacd9b5f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do item",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid-item"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item removido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item removed from cart"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/carts": {
             "get": {
                 "tags": [
@@ -928,6 +1150,10 @@
         {
             "name": "4. Carts",
             "description": "Gerenciamento de carrinhos"
+        },
+        {
+            "name": "6. Cart Items",
+            "description": "6. Cart Items"
         }
     ]
 }
