@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Exception;
+
+class CheckoutService
+{
+    public function processCheckout(string $cartId)
+    {
+        return DB::transaction(function () use ($cartId) {
+            $cart = Cart::findOrFail($cartId);
+            $cartItems = CartItem::where('cart_id', $cartId)->with('product')->get();
+
+            if ($cartItems->isEmpty()) {
+                throw new Exception('Cart is empty');
+            }
+
+            $totalAmount = 0;
+            foreach ($cartItems as $item) {
+                if ($item->product->stock < $item->quantity) {
+                    throw new Exception("Product {$item->product->name} does not have enough stock");
+                }
+                $totalAmount += $item->price * $item->quantity;
+            }
+
+            $order = Order::create([
+                'user_id' => $cart->user_id,
+                'total_amount' => $totalAmount,
+                'status' => 'pending'
+            ]);
+
+            foreach ($cartItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'unit_price' => $item->price,
+                    'total_price' => $item->price * $item->quantity
+                ]);
+
+                // Decrement stock
+                $item->product->decrement('stock', $item->quantity);
+            }
+
+            // Update cart status or clear it
+            $cart->update(['status' => 'completed']);
+            CartItem::where('cart_id', $cartId)->delete();
+
+            return $order->load('items.product');
+        });
+    }
+}

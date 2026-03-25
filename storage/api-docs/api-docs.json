@@ -824,6 +824,116 @@
                 }
             }
         },
+        "/api/v1/checkout": {
+            "post": {
+                "tags": [
+                    "7. Checkout"
+                ],
+                "summary": "Finalizar checkout do carrinho",
+                "operationId": "fa4b2c6b85ee69bee35914774700c2e9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cart_id"
+                                ],
+                                "properties": {
+                                    "cart_id": {
+                                        "type": "string",
+                                        "example": "uuid-cart"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid-order"
+                                        },
+                                        "total_amount": {
+                                            "type": "number",
+                                            "example": 399.8
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "pending"
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "product_id": {
+                                                        "type": "string",
+                                                        "example": "uuid-product"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "unit_price": {
+                                                        "type": "number",
+                                                        "example": 199.9
+                                                    },
+                                                    "total_price": {
+                                                        "type": "number",
+                                                        "example": 399.8
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro no processamento do checkout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cart is empty"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The selected cart id is invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
@@ -1154,6 +1264,10 @@
         {
             "name": "6. Cart Items",
             "description": "6. Cart Items"
+        },
+        {
+            "name": "7. Checkout",
+            "description": "7. Checkout"
         }
     ]
 }
