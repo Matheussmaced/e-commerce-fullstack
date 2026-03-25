@@ -22,7 +22,7 @@ class UserController extends Controller
                     type: "array",
                     items: new OA\Items(
                         properties: [
-                            new OA\Property(property: "id", type: "integer", example: 1),
+                            new OA\Property(property: "id", type: "string", format: "uuid", example: "9b2c3e1a-8f72-4b0e-9c7e-5d8a9f0c3a21"),
                             new OA\Property(property: "name", type: "string", example: "Matheus"),
                             new OA\Property(property: "email", type: "string", example: "matheus@email.com"),
                             new OA\Property(property: "created_at", type: "string", example: "2026-03-25T12:00:00")
@@ -55,7 +55,7 @@ class UserController extends Controller
                 in: "path",
                 required: true,
                 description: "ID do usuário",
-                schema: new OA\Schema(type: "integer", example: 1)
+                schema: new OA\Schema(type: "string", format: "uuid", example: "9b2c3e1a-8f72-4b0e-9c7e-5d8a9f0c3a21")
             )
         ],
         responses: [
@@ -64,7 +64,7 @@ class UserController extends Controller
                 description: "Usuário encontrado",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "id", type: "integer", example: 1),
+                        new OA\Property(property: "id", type: "string", format: "uuid", example: "9b2c3e1a-8f72-4b0e-9c7e-5d8a9f0c3a21"),
                         new OA\Property(property: "name", type: "string", example: "Matheus"),
                         new OA\Property(property: "email", type: "string", example: "matheus@email.com"),
                         new OA\Property(property: "created_at", type: "string", example: "2026-03-25T12:00:00")
