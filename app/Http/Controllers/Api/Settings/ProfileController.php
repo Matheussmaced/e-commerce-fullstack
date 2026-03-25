@@ -9,9 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use OpenApi\Attributes as OA;
+use Inertia\Response;
 
-#[OA\Tag(name: "Profile", description: "Configurações de perfil do usuário")]
 class ProfileController extends Controller
 {
     /**
@@ -25,24 +24,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    #[OA\Patch(
-        path: "/profile",
-        summary: "Atualizar informações do perfil",
-        tags: ["Profile"],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                properties: [
-                    new OA\Property(property: "name", type: "string", example: "John Doe"),
-                    new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com")
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(response: 302, description: "Redirecionamento após atualização"),
-            new OA\Response(response: 422, description: "Erro de validação")
-        ]
-    )]
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
@@ -56,24 +37,6 @@ class ProfileController extends Controller
         return to_route('profile.edit');
     }
 
-    #[OA\Delete(
-        path: "/profile",
-        summary: "Excluir conta do usuário",
-        tags: ["Profile"],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                required: ["password"],
-                properties: [
-                    new OA\Property(property: "password", type: "string", format: "password", example: "password")
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(response: 302, description: "Redirecionamento após exclusão"),
-            new OA\Response(response: 422, description: "Erro de validação")
-        ]
-    )]
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([
