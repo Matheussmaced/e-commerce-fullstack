@@ -318,6 +318,184 @@
                 }
             }
         },
+        "/api/v1/carts": {
+            "get": {
+                "tags": [
+                    "Carts"
+                ],
+                "summary": "Listar carrinhos",
+                "operationId": "e7cb526061233fa78f9e02fa9b738abc",
+                "responses": {
+                    "200": {
+                        "description": "Lista de carrinhos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "uuid123"
+                                            },
+                                            "user_id": {
+                                                "type": "string",
+                                                "example": "user123"
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "active"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Carts"
+                ],
+                "summary": "Criar carrinho",
+                "operationId": "dd2d30246174cb98b9609f714873909a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "type": "string",
+                                        "example": "uuid-user"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Carrinho criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid123"
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "example": "uuid-user"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "active"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/carts/{id}": {
+            "get": {
+                "tags": [
+                    "Carts"
+                ],
+                "summary": "Buscar carrinho por ID",
+                "operationId": "533ed6d948ca11ef210ae76ba2d4b2e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do carrinho",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carrinho encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "uuid123"
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "example": "uuid-user"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "active"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrinho não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Carts"
+                ],
+                "summary": "Remover carrinho",
+                "operationId": "e022dbda762e7f7395f5cb486e3fd4f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do carrinho",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "uuid123"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carrinho removido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cart deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/categories": {
             "get": {
                 "tags": [
@@ -899,6 +1077,10 @@
         {
             "name": "Authentication",
             "description": "Endpoints para autenticação de usuários"
+        },
+        {
+            "name": "Carts",
+            "description": "Gerenciamento de carrinhos do ecommerce"
         },
         {
             "name": "Categories",
