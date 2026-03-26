@@ -7,11 +7,16 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Services\ShipmentService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
 class CheckoutService
 {
+    public function __construct(
+        protected ShipmentService $shipmentService
+    ) {}
+
     public function processCheckout(string $cartId)
     {
         return DB::transaction(function () use ($cartId) {
@@ -67,7 +72,14 @@ class CheckoutService
             $cart->update(['status' => 'completed']);
             CartItem::where('cart_id', $cartId)->delete();
 
-            return $order->load('items.product');
+            // Create Shipment via Service
+            $this->shipmentService->createShipment([
+                'order_id' => $order->id,
+                'shipping_cost' => 15.00,
+                'status' => 'preparing',
+            ]);
+
+            return $order->load(['items.product', 'shipment']);
         });
     }
 }

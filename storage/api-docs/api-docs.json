@@ -1709,6 +1709,125 @@
                 ]
             }
         },
+        "/api/v1/shipments/{order_id}": {
+            "get": {
+                "tags": [
+                    "Shipments"
+                ],
+                "summary": "Ver detalhes de envio por ID do pedido",
+                "operationId": "48f935acdada91323a62935e2bd9ecd2",
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "UUID do pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Envio retornado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "order_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "shipping_cost": {
+                                            "type": "number",
+                                            "format": "float"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "tracking_code": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Envio não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/shipments/{id}": {
+            "patch": {
+                "tags": [
+                    "Shipments"
+                ],
+                "summary": "Atualizar status ou código de rastreio (Admin Only)",
+                "operationId": "f3688f45e026b8b5bad63a50aa89be6e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UUID do envio",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "example": "shipped"
+                                    },
+                                    "tracking_code": {
+                                        "type": "string",
+                                        "example": "ABC123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Envio atualizado com sucesso"
+                    },
+                    "403": {
+                        "description": "Acesso negado"
+                    },
+                    "404": {
+                        "description": "Envio não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/users": {
             "get": {
                 "tags": [
@@ -1872,6 +1991,10 @@
         {
             "name": "Authentication",
             "description": "Autenticação de usuários"
+        },
+        {
+            "name": "Shipments",
+            "description": "Gerenciamento de envios"
         }
     ]
 }

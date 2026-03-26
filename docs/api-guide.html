@@ -379,11 +379,45 @@
         </div>
     </section>
 
-    <!-- 7. ADDRESSES -->
+    <!-- 7. SHIPMENTS -->
+    <section class="module-section">
+        <div class="module-header">
+            <span class="status-badge">LOGÍSTICA</span>
+            <h2 class="module-title">7. Envios (Shipments)</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+        </div>
+
+        <div class="tab-content overview active">
+            <ul class="desc-list">
+                <li><span class="method get">GET</span> <code>/shipments/order/{order_id}</code> - Acompanhar envio.</li>
+                <li><span class="method patch">PATCH</span> <code>/shipments/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Atualizar status/rastreio.</li>
+            </ul>
+        </div>
+        <div class="tab-content flow">
+            <p>1. Pedido é criado com status de envio <code>preparing</code>.<br>2. Admin posta o produto e gera o <code>tracking_code</code>.<br>3. Admin atualiza para <code>shipped</code>.<br>4. O ciclo encerra em <code>delivered</code>.</p>
+        </div>
+        <div class="tab-content payload">
+            <strong>Update Shipment (PATCH):</strong>
+            <pre>{
+  "status": "shipped",
+  "tracking_code": "BR123456789X"
+}</pre>
+        </div>
+        <div class="tab-content frontend">
+            <pre>const shipment = await api.get(`/shipments/order/${orderId}`);</pre>
+        </div>
+    </section>
+
+    <!-- 8. ADDRESSES -->
     <section class="module-section">
         <div class="module-header">
             <span class="status-badge">USER AREA</span>
-            <h2 class="module-title">7. Endereços</h2>
+            <h2 class="module-title">8. Endereços</h2>
         </div>
         <div class="tabs">
             <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>

@@ -28,6 +28,14 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the shipment associated with the order.
+     */
+    public function shipment(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Shipment::class);
+    }
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);

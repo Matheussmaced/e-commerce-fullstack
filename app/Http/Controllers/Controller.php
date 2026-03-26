@@ -28,6 +28,7 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: "Orders", description: "Gerenciamento de pedidos")]
 #[OA\Tag(name: "Order Items", description: "Itens do pedido")]
 #[OA\Tag(name: "Payments", description: "Pagamentos")]
+#[OA\Tag(name: "Shipments", description: "Gerenciamento de envios")]
 #[OA\Tag(name: "Addresses", description: "Gerenciamento de endereços")]
 #[OA\Tag(name: "Users", description: "Gerenciamento de usuários")]
 abstract class Controller
