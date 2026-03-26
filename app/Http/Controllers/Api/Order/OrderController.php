@@ -17,7 +17,7 @@ class OrderController extends Controller
     #[OA\Get(
         path: "/api/v1/orders",
         summary: "Listar pedidos do usuário autenticado",
-        tags: ["8. Orders"],
+        tags: ["Orders"],
         security: [["sanctum" => []]],
         responses: [
             new OA\Response(
@@ -47,7 +47,7 @@ class OrderController extends Controller
     #[OA\Get(
         path: "/api/v1/orders/{id}",
         summary: "Obter detalhes de um pedido específico",
-        tags: ["8. Orders"],
+        tags: ["Orders"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(

@@ -18,7 +18,7 @@ class CheckoutController extends Controller
     #[OA\Post(
         path: "/api/v1/checkout",
         summary: "Finalizar checkout do carrinho",
-        tags: ["7. Checkout"],
+        tags: ["Checkout"],
         security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,

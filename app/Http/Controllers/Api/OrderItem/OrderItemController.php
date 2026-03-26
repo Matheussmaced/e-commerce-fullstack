@@ -17,7 +17,7 @@ class OrderItemController extends Controller
     #[OA\Get(
         path: "/api/v1/orders/{order_id}/items",
         summary: "Listar itens de um pedido específico",
-        tags: ["9. Order Items"],
+        tags: ["Order Items"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(

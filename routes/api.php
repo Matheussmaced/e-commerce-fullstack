@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Checkout\CheckoutController;
 use App\Http\Controllers\Api\Order\OrderController;
 use App\Http\Controllers\Api\OrderItem\OrderItemController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Address\AddressController;
 
 Route::prefix('v1')->group(function () {
     // 1. Rotas Públicas
@@ -41,6 +42,12 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/checkout', [CheckoutController::class, 'store']);
         Route::post('/payments', [PaymentController::class, 'store']);
+
+        // Endereços
+        Route::get('/addresses', [AddressController::class, 'index']);
+        Route::post('/addresses', [AddressController::class, 'store']);
+        Route::put('/addresses', [AddressController::class, 'update']);
+        Route::delete('/addresses', [AddressController::class, 'destroy']);
 
         // Pedidos
         Route::get('/orders', [OrderController::class, 'index']);

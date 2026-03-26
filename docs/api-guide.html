@@ -192,7 +192,10 @@
         <div class="tab-content overview active">
             <ul class="desc-list">
                 <li><span class="method get">GET</span> <code>/categories</code> - Listagem pública.</li>
+                <li><span class="method get">GET</span> <code>/categories/{id}</code> - Ver detalhes.</li>
                 <li><span class="method post">POST</span> <code>/categories</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
+                <li><span class="method put">PUT</span> <code>/categories/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
+                <li><span class="method delete">DELETE</span> <code>/categories/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
             </ul>
         </div>
         <div class="tab-content flow">
@@ -209,7 +212,7 @@
             <pre>const categories = await api.get('/categories');</pre>
         </div>
         <div class="tab-content insomnia">
-            <p><strong>POST:</strong> Requer token de um usuário com <code>role: 'admin'</code>.</p>
+            <p><strong>POST/PUT/DELETE:</strong> Requer token de um usuário com <code>role: 'admin'</code>.</p>
         </div>
     </section>
 
@@ -230,7 +233,10 @@
         <div class="tab-content overview active">
             <ul class="desc-list">
                 <li><span class="method get">GET</span> <code>/products</code> - Listagem pública.</li>
+                <li><span class="method get">GET</span> <code>/products/{id}</code> - Ver detalhes.</li>
                 <li><span class="method post">POST</span> <code>/products</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
+                <li><span class="method put">PUT</span> <code>/products/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
+                <li><span class="method delete">DELETE</span> <code>/products/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
             </ul>
         </div>
         <div class="tab-content flow">
@@ -270,8 +276,12 @@
 
         <div class="tab-content overview active">
             <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/carts</code> - Recuperar carrinho ativo.</li>
+                <li><span class="method get">GET</span> <code>/carts</code> - Ver carrinhos.</li>
+                <li><span class="method post">POST</span> <code>/carts</code> - Criar/Recuperar carrinho.</li>
+                <li><span class="method get">GET</span> <code>/carts/{cart_id}/items</code> - Listar itens.</li>
                 <li><span class="method post">POST</span> <code>/cart-items</code> - Adicionar produto.</li>
+                <li><span class="method put">PUT</span> <code>/cart-items/{id}</code> - Editar quantidade.</li>
+                <li><span class="method delete">DELETE</span> <code>/cart-items/{id}</code> - Remover item.</li>
             </ul>
         </div>
         <div class="tab-content flow">
@@ -309,12 +319,14 @@
 
         <div class="tab-content overview active">
             <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/checkout</code> - Finalizar carrinho.</li>
+                <li><span class="method post">POST</span> <code>/checkout</code> - Finalizar carrinho (Requer Endereço).</li>
                 <li><span class="method get">GET</span> <code>/orders</code> - Meus pedidos.</li>
+                <li><span class="method get">GET</span> <code>/orders/{id}</code> - Detalhes do pedido.</li>
+                <li><span class="method get">GET</span> <code>/orders/{id}/items</code> - Listar itens do pedido.</li>
             </ul>
         </div>
         <div class="tab-content flow">
-            <p>O Checkout limpa o carrinho e gera um Pedido Pendente.</p>
+            <p>O Checkout limpa o carrinho, snapshots do endereço atual do usuário e gera um Pedido Pendente.</p>
         </div>
         <div class="tab-content payload">
             <strong>Checkout Payload:</strong>
@@ -364,6 +376,47 @@
         </div>
         <div class="tab-content insomnia">
             <p>O sistema simula uma transação imediata.</p>
+        </div>
+    </section>
+
+    <!-- 7. ADDRESSES -->
+    <section class="module-section">
+        <div class="module-header">
+            <span class="status-badge">USER AREA</span>
+            <h2 class="module-title">7. Endereços</h2>
+        </div>
+        <div class="tabs">
+            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+        </div>
+
+        <div class="tab-content overview active">
+            <ul class="desc-list">
+                <li><span class="method get">GET</span> <code>/addresses</code> - Ver meu endereço.</li>
+                <li><span class="method post">POST</span> <code>/addresses</code> - Criar ou Atualizar.</li>
+                <li><span class="method put">PUT</span> <code>/addresses</code> - Editar campos específicos.</li>
+                <li><span class="method delete">DELETE</span> <code>/addresses</code> - Remover endereço.</li>
+            </ul>
+        </div>
+        <div class="tab-content payload">
+            <strong>Address Payload:</strong>
+            <pre>{
+  "street": "Rua das Flores",
+  "number": 123,
+  "complement": "Apto 45",
+  "neighborhood": "Centro",
+  "city": "São Paulo",
+  "state": "SP",
+  "zip_code": 1001000
+}</pre>
+        </div>
+        <div class="tab-content frontend">
+            <pre>await api.post('/addresses', addressData);</pre>
+        </div>
+        <div class="tab-content insomnia">
+            <p>O endereço é 1:1 com o usuário. Somente um endereço é mantido por conta.</p>
         </div>
     </section>
 

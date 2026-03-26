@@ -18,7 +18,7 @@ class CartItemController extends Controller
     #[OA\Get(
         path: "/api/v1/carts/{cart_id}/items",
         summary: "Listar itens do carrinho",
-        tags: ["6. Cart Items"],
+        tags: ["Cart Items"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
@@ -57,7 +57,7 @@ class CartItemController extends Controller
     #[OA\Post(
         path: "/api/v1/cart-items",
         summary: "Adicionar item ao carrinho",
-        tags: ["6. Cart Items"],
+        tags: ["Cart Items"],
         security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -98,7 +98,7 @@ class CartItemController extends Controller
     #[OA\Put(
         path: "/api/v1/cart-items/{id}",
         summary: "Atualizar quantidade do item",
-        tags: ["6. Cart Items"],
+        tags: ["Cart Items"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
@@ -140,7 +140,7 @@ class CartItemController extends Controller
     #[OA\Delete(
         path: "/api/v1/cart-items/{id}",
         summary: "Remover item do carrinho",
-        tags: ["6. Cart Items"],
+        tags: ["Cart Items"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(

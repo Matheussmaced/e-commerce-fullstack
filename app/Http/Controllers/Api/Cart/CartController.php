@@ -17,7 +17,7 @@ class CartController extends Controller
     #[OA\Get(
         path: "/api/v1/carts",
         summary: "Listar carrinhos",
-        tags: ["4. Carts"],
+        tags: ["Carts"],
         security: [["sanctum" => []]],
         responses: [
             new OA\Response(
@@ -46,7 +46,7 @@ class CartController extends Controller
     #[OA\Post(
         path: "/api/v1/carts",
         summary: "Criar carrinho",
-        tags: ["4. Carts"],
+        tags: ["Carts"],
         security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -83,7 +83,7 @@ class CartController extends Controller
     #[OA\Get(
         path: "/api/v1/carts/{id}",
         summary: "Buscar carrinho por ID",
-        tags: ["4. Carts"],
+        tags: ["Carts"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
@@ -122,7 +122,7 @@ class CartController extends Controller
     #[OA\Delete(
         path: "/api/v1/carts/{id}",
         summary: "Remover carrinho",
-        tags: ["4. Carts"],
+        tags: ["Carts"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(

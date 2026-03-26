@@ -18,7 +18,7 @@ class ProductController extends Controller
         path: "/api/v1/products",
         summary: "Listar produtos",
         description: "Retorna todos os produtos cadastrados",
-        tags: ["3. Products"],
+        tags: ["Products"],
         responses: [
             new OA\Response(
                 response: 200,
@@ -49,7 +49,7 @@ class ProductController extends Controller
     #[OA\Post(
         path: "/api/v1/products",
         summary: "Criar produto",
-        tags: ["3. Products"],
+        tags: ["Products"],
         security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
@@ -83,7 +83,7 @@ class ProductController extends Controller
     #[OA\Get(
         path: "/api/v1/products/{id}",
         summary: "Buscar produto por ID",
-        tags: ["3. Products"],
+        tags: ["Products"],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -114,7 +114,7 @@ class ProductController extends Controller
     #[OA\Put(
         path: "/api/v1/products/{id}",
         summary: "Atualizar produto",
-        tags: ["3. Products"],
+        tags: ["Products"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
@@ -153,7 +153,7 @@ class ProductController extends Controller
     #[OA\Delete(
         path: "/api/v1/products/{id}",
         summary: "Remover produto",
-        tags: ["3. Products"],
+        tags: ["Products"],
         security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(

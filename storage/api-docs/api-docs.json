@@ -12,10 +12,206 @@
         }
     ],
     "paths": {
+        "/api/v1/addresses": {
+            "get": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Ver endereço do usuário logado",
+                "operationId": "39f13ca76f5e1930a55ae47a2bc11855",
+                "responses": {
+                    "200": {
+                        "description": "Endereço retornado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "street": {
+                                            "type": "string"
+                                        },
+                                        "number": {
+                                            "type": "integer"
+                                        },
+                                        "complement": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "neighborhood": {
+                                            "type": "string"
+                                        },
+                                        "city": {
+                                            "type": "string"
+                                        },
+                                        "state": {
+                                            "type": "string"
+                                        },
+                                        "zip_code": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Atualizar endereço do usuário logado",
+                "operationId": "8088de6c8442ec2684a0803ea535cdce",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "number": {
+                                        "type": "integer"
+                                    },
+                                    "complement": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "neighborhood": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip_code": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Endereço atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Criar ou atualizar endereço do usuário logado",
+                "operationId": "21aef37d3391058d7544becd47733c03",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "street",
+                                    "number",
+                                    "neighborhood",
+                                    "city",
+                                    "state",
+                                    "zip_code"
+                                ],
+                                "properties": {
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "number": {
+                                        "type": "integer"
+                                    },
+                                    "complement": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "neighborhood": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "zip_code": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Endereço salvo com sucesso"
+                    },
+                    "201": {
+                        "description": "Endereço criado com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Deletar endereço do usuário logado",
+                "operationId": "befd723b176c3eb3d7d1a31e6d3627cf",
+                "responses": {
+                    "200": {
+                        "description": "Endereço deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/register": {
             "post": {
                 "tags": [
-                    "1. Authentication"
+                    "Authentication"
                 ],
                 "summary": "Registrar novo usuário (API)",
                 "operationId": "6a59abd9cd73a27f95e6d2936c7f6fcf",
@@ -93,7 +289,7 @@
         "/api/v1/login": {
             "post": {
                 "tags": [
-                    "1. Authentication"
+                    "Authentication"
                 ],
                 "summary": "Realizar login (API)",
                 "operationId": "d5a2f1a3a57ed6c8691702e6afe6b179",
@@ -152,7 +348,7 @@
         "/api/v1/logout": {
             "post": {
                 "tags": [
-                    "1. Authentication"
+                    "Authentication"
                 ],
                 "summary": "Realizar logout (API)",
                 "operationId": "ccbc86cef7f8c1b3f1e6b3e4822f5493",
@@ -184,7 +380,7 @@
         "/api/v1/carts/{cart_id}/items": {
             "get": {
                 "tags": [
-                    "6. Cart Items"
+                    "Cart Items"
                 ],
                 "summary": "Listar itens do carrinho",
                 "operationId": "0f5c3b84f2f47bf8dde8cdf701ab2b7a",
@@ -243,7 +439,7 @@
         "/api/v1/cart-items": {
             "post": {
                 "tags": [
-                    "6. Cart Items"
+                    "Cart Items"
                 ],
                 "summary": "Adicionar item ao carrinho",
                 "operationId": "19a77be3420e41454393bb09b52653c2",
@@ -320,7 +516,7 @@
         "/api/v1/cart-items/{id}": {
             "put": {
                 "tags": [
-                    "6. Cart Items"
+                    "Cart Items"
                 ],
                 "summary": "Atualizar quantidade do item",
                 "operationId": "c01e44eefe8d219b4e6dd41e328fca25",
@@ -382,7 +578,7 @@
             },
             "delete": {
                 "tags": [
-                    "6. Cart Items"
+                    "Cart Items"
                 ],
                 "summary": "Remover item do carrinho",
                 "operationId": "539b4ab24ea48c3826384f05aacd9b5f",
@@ -426,7 +622,7 @@
         "/api/v1/carts": {
             "get": {
                 "tags": [
-                    "4. Carts"
+                    "Carts"
                 ],
                 "summary": "Listar carrinhos",
                 "operationId": "e7cb526061233fa78f9e02fa9b738abc",
@@ -467,7 +663,7 @@
             },
             "post": {
                 "tags": [
-                    "4. Carts"
+                    "Carts"
                 ],
                 "summary": "Criar carrinho",
                 "operationId": "dd2d30246174cb98b9609f714873909a",
@@ -527,7 +723,7 @@
         "/api/v1/carts/{id}": {
             "get": {
                 "tags": [
-                    "4. Carts"
+                    "Carts"
                 ],
                 "summary": "Buscar carrinho por ID",
                 "operationId": "533ed6d948ca11ef210ae76ba2d4b2e8",
@@ -580,7 +776,7 @@
             },
             "delete": {
                 "tags": [
-                    "4. Carts"
+                    "Carts"
                 ],
                 "summary": "Remover carrinho",
                 "operationId": "e022dbda762e7f7395f5cb486e3fd4f3",
@@ -624,7 +820,7 @@
         "/api/v1/categories": {
             "get": {
                 "tags": [
-                    "2. Categories"
+                    "Categories"
                 ],
                 "summary": "Listar todas as categorias",
                 "description": "Retorna uma lista de categorias cadastradas",
@@ -661,7 +857,7 @@
             },
             "post": {
                 "tags": [
-                    "2. Categories"
+                    "Categories"
                 ],
                 "summary": "Criar nova categoria",
                 "operationId": "297b8accf0b4970c1aaf1017b68305b3",
@@ -725,7 +921,7 @@
         "/api/v1/categories/{id}": {
             "get": {
                 "tags": [
-                    "2. Categories"
+                    "Categories"
                 ],
                 "summary": "Buscar categoria por ID",
                 "operationId": "f31faaea23a0941bcc0b82904def396f",
@@ -773,7 +969,7 @@
             },
             "put": {
                 "tags": [
-                    "2. Categories"
+                    "Categories"
                 ],
                 "summary": "Atualizar categoria",
                 "operationId": "60dbed8d796dc08e84f56988186e34a4",
@@ -843,7 +1039,7 @@
             },
             "delete": {
                 "tags": [
-                    "2. Categories"
+                    "Categories"
                 ],
                 "summary": "Remover categoria",
                 "operationId": "ba7403f18157056df7e5a179ba8b953d",
@@ -887,7 +1083,7 @@
         "/api/v1/checkout": {
             "post": {
                 "tags": [
-                    "7. Checkout"
+                    "Checkout"
                 ],
                 "summary": "Finalizar checkout do carrinho",
                 "operationId": "fa4b2c6b85ee69bee35914774700c2e9",
@@ -1002,7 +1198,7 @@
         "/api/v1/orders/{order_id}/items": {
             "get": {
                 "tags": [
-                    "9. Order Items"
+                    "Order Items"
                 ],
                 "summary": "Listar itens de um pedido específico",
                 "operationId": "843b7c9d0e97e718288c99f759064cd3",
@@ -1077,7 +1273,7 @@
         "/api/v1/orders": {
             "get": {
                 "tags": [
-                    "8. Orders"
+                    "Orders"
                 ],
                 "summary": "Listar pedidos do usuário autenticado",
                 "operationId": "4ad79b88c91b0b2a2acc9c3c5eaf98f6",
@@ -1124,7 +1320,7 @@
         "/api/v1/orders/{id}": {
             "get": {
                 "tags": [
-                    "8. Orders"
+                    "Orders"
                 ],
                 "summary": "Obter detalhes de um pedido específico",
                 "operationId": "83687a31b77001179fe6a0ab2861c7b4",
@@ -1216,7 +1412,7 @@
         "/api/v1/payments": {
             "post": {
                 "tags": [
-                    "10. Payments"
+                    "Payments"
                 ],
                 "summary": "Processar pagamento de um pedido",
                 "operationId": "6e4b1f82dbb685164fa49674e3c493be",
@@ -1295,7 +1491,7 @@
         "/api/v1/products": {
             "get": {
                 "tags": [
-                    "3. Products"
+                    "Products"
                 ],
                 "summary": "Listar produtos",
                 "description": "Retorna todos os produtos cadastrados",
@@ -1344,7 +1540,7 @@
             },
             "post": {
                 "tags": [
-                    "3. Products"
+                    "Products"
                 ],
                 "summary": "Criar produto",
                 "operationId": "3f003bfc0928d1f8bf1867f4314a14c0",
@@ -1401,7 +1597,7 @@
         "/api/v1/products/{id}": {
             "get": {
                 "tags": [
-                    "3. Products"
+                    "Products"
                 ],
                 "summary": "Buscar produto por ID",
                 "operationId": "f33541f61b52d7d9e18530c19f694590",
@@ -1428,7 +1624,7 @@
             },
             "put": {
                 "tags": [
-                    "3. Products"
+                    "Products"
                 ],
                 "summary": "Atualizar produto",
                 "operationId": "f45bfefc8566fe344a21cb1720b699b3",
@@ -1485,7 +1681,7 @@
             },
             "delete": {
                 "tags": [
-                    "3. Products"
+                    "Products"
                 ],
                 "summary": "Remover produto",
                 "operationId": "962165106847db5ed0923292384cfb07",
@@ -1516,7 +1712,7 @@
         "/api/v1/users": {
             "get": {
                 "tags": [
-                    "5. Users"
+                    "Users"
                 ],
                 "summary": "Listar usuários",
                 "operationId": "83119c699fe97cfb2fb004cebc287051",
@@ -1564,7 +1760,7 @@
         "/api/v1/users/{id}": {
             "get": {
                 "tags": [
-                    "5. Users"
+                    "Users"
                 ],
                 "summary": "Buscar usuário por ID",
                 "operationId": "0ec22789399cf07e1f632924a4ca2815",
@@ -1634,44 +1830,48 @@
     },
     "tags": [
         {
-            "name": "5. Users",
+            "name": "Addresses",
+            "description": "Gerenciamento de endereços"
+        },
+        {
+            "name": "Cart Items",
+            "description": "Itens do carrinho"
+        },
+        {
+            "name": "Carts",
+            "description": "Gerenciamento de carrinhos"
+        },
+        {
+            "name": "Categories",
+            "description": "Gerenciamento de categorias"
+        },
+        {
+            "name": "Checkout",
+            "description": "Finalização de compra"
+        },
+        {
+            "name": "Order Items",
+            "description": "Itens do pedido"
+        },
+        {
+            "name": "Orders",
+            "description": "Gerenciamento de pedidos"
+        },
+        {
+            "name": "Payments",
+            "description": "Pagamentos"
+        },
+        {
+            "name": "Products",
+            "description": "Gerenciamento de produtos"
+        },
+        {
+            "name": "Users",
             "description": "Gerenciamento de usuários"
         },
         {
-            "name": "1. Authentication",
-            "description": "1. Authentication"
-        },
-        {
-            "name": "6. Cart Items",
-            "description": "6. Cart Items"
-        },
-        {
-            "name": "4. Carts",
-            "description": "4. Carts"
-        },
-        {
-            "name": "2. Categories",
-            "description": "2. Categories"
-        },
-        {
-            "name": "7. Checkout",
-            "description": "7. Checkout"
-        },
-        {
-            "name": "9. Order Items",
-            "description": "9. Order Items"
-        },
-        {
-            "name": "8. Orders",
-            "description": "8. Orders"
-        },
-        {
-            "name": "10. Payments",
-            "description": "10. Payments"
-        },
-        {
-            "name": "3. Products",
-            "description": "3. Products"
+            "name": "Authentication",
+            "description": "Autenticação de usuários"
         }
     ]
 }

@@ -30,10 +30,24 @@ class CheckoutService
                 $totalAmount += $item->price * $item->quantity;
             }
 
+            $user = $cart->user;
+            $address = $user->address;
+
+            if (!$address) {
+                throw new Exception('User address not found. Please provide an address before checkout.');
+            }
+
             $order = Order::create([
                 'user_id' => $cart->user_id,
                 'total_amount' => $totalAmount,
-                'status' => 'pending'
+                'status' => 'pending',
+                'street' => $address->street,
+                'number' => $address->number,
+                'complement' => $address->complement,
+                'neighborhood' => $address->neighborhood,
+                'city' => $address->city,
+                'state' => $address->state,
+                'zip_code' => $address->zip_code,
             ]);
 
             foreach ($cartItems as $item) {

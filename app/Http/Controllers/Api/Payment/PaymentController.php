@@ -18,7 +18,7 @@ class PaymentController extends Controller
     #[OA\Post(
         path: "/api/v1/payments",
         summary: "Processar pagamento de um pedido",
-        tags: ["10. Payments"],
+        tags: ["Payments"],
         security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
