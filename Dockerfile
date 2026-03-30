@@ -1,16 +1,21 @@
-# Etapa 1: Build do frontend React
+# Etapa 1: Build do frontend React + Vite
 FROM node:20-alpine AS frontend-build
 
 WORKDIR /app
 
-# Copia apenas os arquivos necessários para instalar dependências do React
+# Copia package.json + lock
 COPY package*.json ./
+
+# Instala dependências
+RUN npm install
+
+# Copia todo o frontend necessário
 COPY resources/js ./resources/js
+COPY resources/css ./resources/css
 COPY vite.config.js ./
 COPY tsconfig.json ./
-# Ajuste o caminho se seu React estiver em outra pasta
 
-RUN npm install
+# Build do React + Vite
 RUN npm run build
 
 # Etapa 2: Backend Laravel + frontend compilado
