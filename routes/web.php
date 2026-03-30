@@ -25,6 +25,9 @@ Route::get('/checkout', function () {
     return Inertia::render('(private)/Checkout/Index');
 });
 
+Route::get('/dashboard', function () {
+    return Inertia::render('(private)/Admin/Dashboard');
+});
 
 Route::middleware(['auth'])->group(function () {
     // Other routes that strictly require a session

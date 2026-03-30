@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AppLayout from "@/layouts/AppLayout";
 import Reveal from "@/components/ui/Reveal";
 import api from "@/services/api";
-import { Category } from "@/types";
+import { Category, User } from "@/types";
 import { PlusCircle, Package, Layers, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 export default function Dashboard() {
@@ -10,6 +10,8 @@ export default function Dashboard() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [authorized, setAuthorized] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   // Product Form State
   const [productForm, setProductForm] = useState({
@@ -27,9 +29,37 @@ export default function Dashboard() {
     slug: ""
   });
 
+  // Verificar se o usuário é admin
   useEffect(() => {
-    fetchCategories();
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+
+    api.get("/me")
+      .then(response => {
+        const user: User = response.data;
+        if (user.role === "admin") {
+          setAuthorized(true);
+        } else {
+          window.location.href = "/";
+        }
+      })
+      .catch(() => {
+        window.location.href = "/login";
+      })
+      .finally(() => {
+        setCheckingAuth(false);
+      });
   }, []);
+
+  useEffect(() => {
+    if (authorized) {
+      fetchCategories();
+    }
+  }, [authorized]);
 
   const fetchCategories = async () => {
     try {
@@ -54,9 +84,9 @@ export default function Dashboard() {
       setMessage({ type: "success", text: "Produto adicionado com sucesso!" });
       setProductForm({ name: "", description: "", price: "", stock: "", category_id: "", image: "" });
     } catch (err: any) {
-      setMessage({ 
-        type: "error", 
-        text: err.response?.data?.message || "Erro ao adicionar produto. Verifique os campos." 
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Erro ao adicionar produto. Verifique os campos."
       });
     } finally {
       setLoading(false);
@@ -74,23 +104,33 @@ export default function Dashboard() {
       setCategoryForm({ name: "", slug: "" });
       fetchCategories(); // Refresh list
     } catch (err: any) {
-      setMessage({ 
-        type: "error", 
-        text: err.response?.data?.message || "Erro ao adicionar categoria. Verifique os campos." 
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Erro ao adicionar categoria. Verifique os campos."
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const inputClasses = "w-full px-4 py-3 rounded-xl border border-zinc-200 bg-white focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all duration-200 text-sm";
+  const inputClasses = "text-gray-500 w-full px-4 py-3 rounded-xl border border-zinc-200 bg-white focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all duration-200 text-sm ";
   const labelClasses = "block text-sm font-medium text-zinc-700 mb-1.5 ml-1";
+
+  if (checkingAuth || !authorized) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen flex items-center justify-center bg-zinc-50/30">
+          <Loader2 className="animate-spin text-zinc-400" size={40} />
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
       <div className="min-h-screen pt-32 pb-20 px-6 sm:px-10 bg-zinc-50/30">
         <div className="max-w-4xl mx-auto">
-          
+
           <Reveal>
             <div className="mb-12">
               <h1 className="text-4xl font-bold tracking-tight text-black flex items-center gap-3">
@@ -105,22 +145,20 @@ export default function Dashboard() {
             <div className="flex p-1 bg-zinc-100 rounded-2xl mb-10 w-fit">
               <button
                 onClick={() => { setActiveTab("product"); setMessage(null); }}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  activeTab === "product" 
-                  ? "bg-white text-black shadow-sm" 
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${activeTab === "product"
+                  ? "bg-white text-black shadow-sm"
                   : "text-zinc-500 hover:text-black"
-                }`}
+                  }`}
               >
                 <Package size={18} />
                 Produtos
               </button>
               <button
                 onClick={() => { setActiveTab("category"); setMessage(null); }}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                  activeTab === "category" 
-                  ? "bg-white text-black shadow-sm" 
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${activeTab === "category"
+                  ? "bg-white text-black shadow-sm"
                   : "text-zinc-500 hover:text-black"
-                }`}
+                  }`}
               >
                 <Layers size={18} />
                 Categorias
@@ -131,11 +169,10 @@ export default function Dashboard() {
           {/* Message Alert */}
           {message && (
             <Reveal>
-              <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 border shadow-sm ${
-                message.type === "success" 
-                ? "bg-emerald-50 border-emerald-100 text-emerald-800" 
+              <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 border shadow-sm ${message.type === "success"
+                ? "bg-emerald-50 border-emerald-100 text-emerald-800"
                 : "bg-rose-50 border-rose-100 text-rose-800"
-              }`}>
+                }`}>
                 {message.type === "success" ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
                 <p className="text-sm font-medium">{message.text}</p>
               </div>
@@ -165,7 +202,7 @@ export default function Dashboard() {
                         className={inputClasses}
                         placeholder="Ex: Camiseta Oversized Black"
                         value={productForm.name}
-                        onChange={e => setProductForm({...productForm, name: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, name: e.target.value })}
                       />
                     </div>
 
@@ -177,7 +214,7 @@ export default function Dashboard() {
                         className={`${inputClasses} resize-none`}
                         placeholder="Descreva os detalhes e diferenciais do produto..."
                         value={productForm.description}
-                        onChange={e => setProductForm({...productForm, description: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, description: e.target.value })}
                       />
                     </div>
 
@@ -190,7 +227,7 @@ export default function Dashboard() {
                         className={inputClasses}
                         placeholder="0.00"
                         value={productForm.price}
-                        onChange={e => setProductForm({...productForm, price: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, price: e.target.value })}
                       />
                     </div>
 
@@ -202,7 +239,7 @@ export default function Dashboard() {
                         className={inputClasses}
                         placeholder="0"
                         value={productForm.stock}
-                        onChange={e => setProductForm({...productForm, stock: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, stock: e.target.value })}
                       />
                     </div>
 
@@ -212,7 +249,7 @@ export default function Dashboard() {
                         required
                         className={inputClasses}
                         value={productForm.category_id}
-                        onChange={e => setProductForm({...productForm, category_id: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, category_id: e.target.value })}
                       >
                         <option value="">Selecione uma categoria</option>
                         {categories.map(cat => (
@@ -229,7 +266,7 @@ export default function Dashboard() {
                         className={inputClasses}
                         placeholder="https://exemplo.com/imagem.jpg"
                         value={productForm.image}
-                        onChange={e => setProductForm({...productForm, image: e.target.value})}
+                        onChange={e => setProductForm({ ...productForm, image: e.target.value })}
                       />
                     </div>
 
@@ -284,7 +321,7 @@ export default function Dashboard() {
                         className={inputClasses}
                         placeholder="ex: acessorios"
                         value={categoryForm.slug}
-                        onChange={e => setCategoryForm({...categoryForm, slug: e.target.value})}
+                        onChange={e => setCategoryForm({ ...categoryForm, slug: e.target.value })}
                       />
                     </div>
 

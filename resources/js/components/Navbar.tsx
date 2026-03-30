@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { LogOut, LogOutIcon, ShoppingCart, User } from "lucide-react"
+import { LayoutDashboard, LogOut, LogOutIcon, ShoppingCart, User } from "lucide-react"
 import { Link } from "@inertiajs/react"
 import { useInitials } from "@/hooks/use-initials"
 import api from "@/services/api"
@@ -99,19 +99,19 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
 
         {/* Logo */}
-        <h1 className="text-xl font-bold text-black tracking-wide">
+        <Link href="/" className="text-xl font-bold text-black tracking-wide hover:opacity-70 transition-opacity">
           E-commerce
-        </h1>
+        </Link>
 
         {/* Links */}
         <div className="flex items-center gap-8 text-black">
 
-          <a
-            href="#produtos"
-            className="hover:text-white transition-colors duration-300"
+          <Link
+            href="/products"
+            className="hover:text-gray-700 transition-colors duration-300"
           >
             Produtos
-          </a>
+          </Link>
 
           {/* User */}
           <div className="relative" ref={dropdownRef}>
@@ -190,6 +190,19 @@ export default function Navbar() {
             )}
 
           </div>
+
+          {/* Dashboard (admin only) */}
+          {isLogged && user?.role === 'admin' && (
+            <Link
+              href="/dashboard"
+              className="group relative flex items-center"
+              title="Painel Admin"
+            >
+              <div className="w-10 h-10 rounded-full flex items-center justify-center transition bg-zinc-100 text-zinc-600 hover:bg-zinc-900 hover:text-white">
+                <LayoutDashboard size={20} />
+              </div>
+            </Link>
+          )}
 
           {/* Cart */}
           <Link

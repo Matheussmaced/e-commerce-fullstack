@@ -27,7 +27,7 @@ export default function Login() {
 
       localStorage.setItem("token", response.data.token)
 
-      router.visit("/")
+      window.location.href = "/"
 
     } catch (error: any) {
 
