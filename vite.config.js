@@ -16,5 +16,9 @@ export default defineConfig({
     esbuild: {
         jsx: 'automatic',
     },
-    base: process.env.VITE_URL || '/',
+     base: '/build/',
+    build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
+    }
 });
