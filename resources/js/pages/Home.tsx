@@ -1,118 +1,281 @@
 import { useEffect, useState } from "react";
 import api from "@/services/api";
 import ProductCard from "@/components/ProductCard";
+import AppLayout from "@/layouts/AppLayout";
 
 export default function Home() {
 
   const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const ecommerceInfo = [
+    "Frete grátis acima de R$199",
+    "10% OFF no PIX",
+    "Troca grátis em até 7 dias",
+    "Entrega para todo Brasil",
+    "Nova coleção disponível"
+  ];
 
   useEffect(() => {
+
     api.get("/products")
-      .then(res => setProducts(res.data));
+      .then(res => setProducts(res.data))
+      .catch(() => setProducts([]));
+
+    api.get("/categories")
+      .then(res => setCategories(res.data))
+      .catch(() => setCategories([]));
+
   }, []);
 
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter(
+        product => product?.category_slug === selectedCategory
+      );
+
   return (
-    <div className="min-h-screen bg-black text-white">
+    <AppLayout>
 
-      {/* HERO */}
-      <section className="relative py-32 px-10 border-b border-zinc-800 bg-gradient-to-b from-green-900/20 to-black">
+      <div className="min-h-screen  text-black pt-6">
 
-        <div className="max-w-5xl">
+        {/* HERO */}
+        <section className="relative py-40 px-10 border-b border-gray-300">
 
-          <p className="text-green-400 text-sm mb-4">
-            Nova geração disponível
-          </p>
+          <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
 
-          <h1 className="text-6xl font-bold leading-tight mb-6">
-            Gaming Gear <br />
-            de Alta Performance
-          </h1>
+            <div>
 
-          <p className="text-zinc-400 max-w-xl mb-8">
-            Equipamentos desenvolvidos para performance máxima,
-            design premium e experiência imersiva.
-          </p>
+              <p className="uppercase text-sm tracking-widest text-zinc-500 mb-6">
+                Nova coleção
+              </p>
 
-          <div className="flex gap-4">
+              <h1 className="text-6xl font-bold leading-tight mb-6">
+                Vista seu <br /> estilo
+              </h1>
 
-            <button className="bg-green-500 hover:bg-green-400 text-black font-semibold px-6 py-3 rounded-lg">
-              Comprar agora
-            </button>
+              <p className="text-zinc-600 mb-10 text-lg max-w-md">
+                Peças modernas e versáteis feitas para quem
+                quer se destacar com conforto e autenticidade.
+              </p>
 
-            <button className="border border-zinc-700 px-6 py-3 rounded-lg hover:border-green-500">
-              Ver produtos
-            </button>
+              <div className="flex gap-4">
+
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("produtos")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="bg-black text-white px-8 py-3 rounded-md hover:opacity-80 transition"
+                >
+                  Comprar agora
+                </button>
+
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("produtos")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="border px-8 py-3 rounded-md hover:bg-black hover:text-white transition"
+                >
+                  Ver coleção
+                </button>
+
+              </div>
+
+            </div>
+
+            {/* HERO IMAGE */}
+            <div className="w-full h-[500px] bg-zinc-100 rounded-xl flex items-center justify-center text-zinc-400">
+              <img src="https://picsum.photos/400/500" alt="Imagem banner" className="w-full" />
+            </div>
 
           </div>
 
-        </div>
+        </section>
 
-      </section>
+        {/* CATEGORIAS */}
+        <section className="px-10 py-16 border-b border-gray-300">
 
-      {/* FEATURES */}
-      <section className="px-10 py-16 border-b border-zinc-800">
+          <div className="max-w-6xl mx-auto">
 
-        <div className="grid md:grid-cols-3 gap-10 text-center">
+            <div className="flex gap-4 flex-wrap justify-center">
 
-          <div>
-            <h3 className="text-xl font-semibold mb-2">
-              ⚡ Performance extrema
-            </h3>
-            <p className="text-zinc-400 text-sm">
-              Hardware otimizado para jogos e produtividade.
-            </p>
+              <button
+                onClick={() => setSelectedCategory("all")}
+                className={`px-6 py-2 rounded-full border text-sm transition ${selectedCategory === "all"
+                  ? "bg-black text-white border-black"
+                  : "border-zinc-300 hover:border-black"
+                  }`}
+              >
+                Todos
+              </button>
+
+              {categories.map(category => (
+
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.slug)}
+                  className={`px-6 py-2 rounded-full border text-sm transition ${selectedCategory === category.slug
+                    ? "bg-black text-white border-black"
+                    : "border-zinc-300 hover:border-black"
+                    }`}
+                >
+                  {category.name}
+                </button>
+
+              ))}
+
+            </div>
+
           </div>
 
-          <div>
-            <h3 className="text-xl font-semibold mb-2">
-              🎮 Design gamer
-            </h3>
-            <p className="text-zinc-400 text-sm">
-              Estética moderna com iluminação RGB e construção premium.
-            </p>
+        </section>
+
+        {/* PRODUTOS */}
+        <section
+          id="produtos"
+          className="px-10 py-20 scroll-mt-64"
+        >
+
+          <div className="max-w-6xl mx-auto">
+
+            <div className="flex justify-between items-center mb-12">
+
+              <h2 className="text-3xl font-semibold">
+                Coleção
+              </h2>
+
+              <span className="text-sm text-zinc-500">
+                {filteredProducts.length} produtos
+              </span>
+
+            </div>
+
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+              {filteredProducts.map(product => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                />
+              ))}
+
+            </div>
+
           </div>
 
-          <div>
-            <h3 className="text-xl font-semibold mb-2">
-              🚀 Tecnologia de ponta
-            </h3>
-            <p className="text-zinc-400 text-sm">
-              Equipamentos preparados para o futuro.
-            </p>
+        </section>
+
+        {/* BANNERS */}
+        <section className="px-10 pb-24">
+
+          <div className="max-w-6xl mx-auto space-y-10">
+
+            {/* banner grande */}
+            <div className="relative h-[400px] overflow-hidden rounded-xl group cursor-pointer">
+
+              <img
+                src="https://picsum.photos/400/500"
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+              />
+
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+
+                <div className="text-center text-white">
+
+                  <h3 className="text-4xl font-bold mb-4">
+                    Nova Coleção
+                  </h3>
+
+                  <button className="bg-white text-black px-6 py-3 rounded-md font-medium hover:opacity-80 transition">
+                    Explorar
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* banners menores */}
+            <div className="grid md:grid-cols-2 gap-8">
+
+              {/* banner 1 */}
+              <div className="relative h-[280px] overflow-hidden rounded-xl group cursor-pointer">
+
+                <img
+                  src="https://picsum.photos/400/500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                />
+
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-white">
+
+                  <h3 className="text-2xl font-semibold">
+                    Streetwear
+                  </h3>
+
+                </div>
+
+              </div>
+
+              {/* banner 2 */}
+              <div className="relative h-[280px] overflow-hidden rounded-xl group cursor-pointer">
+
+                <img
+                  src="https://picsum.photos/400/500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+                />
+
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-white">
+
+                  <h3 className="text-2xl font-semibold">
+                    Essentials
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
           </div>
 
-        </div>
+        </section>
 
-      </section>
+        {/* MARQUEE INFO */}
+        <section className="border-y border-gray-300 overflow-hidden bg-black text-white">
 
-      {/* PRODUTOS */}
-      <section className="px-10 py-20">
+          <div className="relative flex overflow-hidden py-4">
 
-        <div className="flex justify-between items-center mb-10">
+            {/* faixa 1 */}
+            <div className="marquee-track flex gap-16 px-10 whitespace-nowrap">
 
-          <h2 className="text-3xl font-bold">
-            Produtos em destaque
-          </h2>
+              {ecommerceInfo.map((info, index) => (
+                <span key={index}>{info}</span>
+              ))}
 
-          <span className="text-zinc-400">
-            {products.length} produtos
-          </span>
+            </div>
 
-        </div>
+            {/* faixa 2 (duplicada) */}
+            <div className="marquee-track flex gap-16 px-10 whitespace-nowrap">
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+              {ecommerceInfo.map((info, index) => (
+                <span key={index}>{info}</span>
+              ))}
 
-          {products.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-            />
-          ))}
+            </div>
 
-        </div>
+          </div>
 
-      </section>
+        </section>
 
-    </div>
+      </div>
+
+    </AppLayout>
   );
 }

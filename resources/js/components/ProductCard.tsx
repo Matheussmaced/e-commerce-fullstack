@@ -1,8 +1,8 @@
-import api from "@/services/api";
+import api from "@/services/api"
 
 type Props = {
-  product: any;
-};
+  product: any
+}
 
 export default function ProductCard({ product }: Props) {
 
@@ -10,52 +10,57 @@ export default function ProductCard({ product }: Props) {
     await api.post("/cart-items", {
       product_id: product.id,
       quantity: 1
-    });
-  };
+    })
+  }
 
   return (
-    <div className="group relative bg-gradient-to-b from-zinc-900 to-black border border-zinc-800 rounded-xl overflow-hidden hover:border-green-500 transition-all duration-300">
+
+    <div className="group">
 
       {/* imagem */}
-      <div className="h-52 flex items-center justify-center bg-zinc-900">
+      <div className="relative overflow-hidden bg-zinc-100">
+
         <img
-          src="/placeholder-product.png"
-          className="h-40 object-contain group-hover:scale-105 transition"
+          src={product.image || "https://picsum.photos/400/500"}
+          className="w-full h-[320px] object-cover transition duration-500 group-hover:scale-105"
         />
+
+        {/* botão hover */}
+        <button
+          onClick={addToCart}
+          className="
+            absolute bottom-4 left-1/2 -translate-x-1/2
+            bg-black text-white text-sm
+            px-2 py-2
+            opacity-0 group-hover:opacity-100
+            transition duration-300
+            rounded-full
+            cursor-pointer
+          "
+        >
+          Adicionar ao carrinho
+        </button>
+
       </div>
 
-      <div className="p-5 space-y-3">
+      {/* info */}
+      <div className="mt-4 space-y-1">
 
-        <h3 className="text-xl font-bold group-hover:text-green-400 transition">
+        <h3 className="text-sm font-medium">
           {product.name}
         </h3>
 
-        <p className="text-zinc-400 text-sm line-clamp-2">
+        <p className="text-sm text-zinc-500 line-clamp-2">
           {product.description}
         </p>
 
-        <div className="flex items-center justify-between pt-3">
-
-          <div>
-            <p className="text-green-400 font-bold text-xl">
-              R$ {product.price.toFixed(2)}
-            </p>
-            <p className="text-xs text-zinc-500">
-              {product.stock} em estoque
-            </p>
-          </div>
-
-          <button
-            onClick={addToCart}
-            className="bg-green-500 hover:bg-green-400 text-black font-semibold px-4 py-2 rounded-lg transition"
-          >
-            Comprar
-          </button>
-
-        </div>
+        <p className="font-semibold mt-2">
+          R$ {product.price.toFixed(2)}
+        </p>
 
       </div>
 
     </div>
-  );
+
+  )
 }

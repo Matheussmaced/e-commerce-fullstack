@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete API Guide | Documentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg: #0a0a0a;
@@ -16,7 +19,11 @@
             --accent-soft: rgba(59, 130, 246, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--bg);
@@ -38,12 +45,34 @@
             padding-bottom: 30px;
         }
 
-        header h1 { font-weight: 600; font-size: 2.5rem; letter-spacing: -0.02em; color: var(--text-primary); }
-        header p { color: var(--text-secondary); margin-top: 8px; font-size: 1.1rem; }
+        header h1 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
 
-        .module-section { margin-bottom: 80px; }
-        .module-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .module-title { font-size: 1.5rem; font-weight: 500; }
+        header p {
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-size: 1.1rem;
+        }
+
+        .module-section {
+            margin-bottom: 80px;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
 
         /* Tabs System */
         .tabs {
@@ -68,8 +97,14 @@
             white-space: nowrap;
         }
 
-        .tab-trigger:hover { color: var(--text-primary); }
-        .tab-trigger.active { color: var(--accent); }
+        .tab-trigger:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-trigger.active {
+            color: var(--accent);
+        }
+
         .tab-trigger.active::after {
             content: '';
             position: absolute;
@@ -80,10 +115,30 @@
             background-color: var(--accent);
         }
 
-        .tab-content { display: none; padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        .tab-content {
+            display: none;
+            padding: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Code & Pre */
         pre {
@@ -98,345 +153,423 @@
             margin: 12px 0;
         }
 
-        .method { font-weight: 600; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; margin-right: 8px; }
-        .get { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
-        .post { color: #60a5fa; background: rgba(96, 165, 250, 0.1); }
-        .put { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
-        .delete { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+        .method {
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
 
-        .desc-list { list-style: none; margin-top: 12px; }
-        .desc-list li { margin-bottom: 12px; color: var(--text-secondary); position: relative; padding-left: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .desc-list li:last-child { border-bottom: none; }
-        .desc-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+        .get {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+        }
 
-        .status-badge { font-size: 0.75rem; color: var(--text-secondary); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; }
-        .admin-badge { color: #f87171; border-color: rgba(248, 113, 113, 0.3); }
+        .post {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.1);
+        }
 
-        footer { text-align: center; color: var(--text-secondary); font-size: 0.85rem; margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border); }
+        .put {
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
 
-        strong { color: var(--text-primary); }
+        .delete {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .desc-list {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .desc-list li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .desc-list li:last-child {
+            border-bottom: none;
+        }
+
+        .desc-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .admin-badge {
+            color: #f87171;
+            border-color: rgba(248, 113, 113, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
     </style>
 </head>
+
 <body>
 
-<div class="layout">
-    <header>
-        <h1>Complete API Guide</h1>
-        <p>Documentação integral de todos os módulos e fluxos do sistema.</p>
-    </header>
+    <div class="layout">
+        <header>
+            <h1>Complete API Guide</h1>
+            <p>Documentação integral de todos os módulos e fluxos do sistema.</p>
+        </header>
 
-    <!-- 1. AUTH -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">PROTEGIDO (SANCTUM)</span>
-            <h2 class="module-title">1. Autenticação & Segurança</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 1. AUTH -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">PROTEGIDO (SANCTUM)</span>
+                <h2 class="module-title">1. Autenticação & Segurança</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/login</code> - Autentica e retorna o <strong>Bearer Token</strong>.</li>
-                <li><span class="method post">POST</span> <code>/register</code> - Cria conta (role: <code>user</code> ou <code>admin</code>).</li>
-                <li><span class="method post">POST</span> <code>/logout</code> - Invalida token atual.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>1. Usuário envia credenciais.<br>2. Sistema retorna <code>token</code>.<br>3. O Token deve ser enviado no Header <code>Authorization: Bearer {token}</code>.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Register Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method post">POST</span> <code>/login</code> - Autentica e retorna o <strong>Bearer
+                            Token</strong>.</li>
+                    <li><span class="method post">POST</span> <code>/register</code> - Cria conta (role:
+                        <code>user</code> ou <code>admin</code>).</li>
+                    <li><span class="method post">POST</span> <code>/logout</code> - Invalida token atual.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>1. Usuário envia credenciais.<br>2. Sistema retorna <code>token</code>.<br>3. O Token deve ser
+                    enviado no Header <code>Authorization: Bearer {token}</code>.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Register Payload:</strong>
+                <pre>{
   "name": "Admin User",
   "email": "admin@example.com",
   "password": "password",
   "password_confirmation": "password",
   "role": "admin" // opcional: 'user' ou 'admin'
 }</pre>
-            <strong>Login Payload:</strong>
-            <pre>{
+                <strong>Login Payload:</strong>
+                <pre>{
   "email": "admin@example.com",
   "password": "password"
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>const login = async (credentials) => {
+            </div>
+            <div class="tab-content frontend">
+                <pre>const login = async (credentials) => {
   const { data } = await api.post('/login', credentials);
   localStorage.setItem('api_token', data.token);
 };</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p><strong>Configuração:</strong> Vá em Auth -> Bearer Token e cole o valor retornado.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content insomnia">
+                <p><strong>Configuração:</strong> Vá em Auth -> Bearer Token e cole o valor retornado.</p>
+            </div>
+        </section>
 
-    <!-- 2. CATEGORIES -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">CATÁLOGO</span>
-            <h2 class="module-title">2. Categorias</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 2. CATEGORIES -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">CATÁLOGO</span>
+                <h2 class="module-title">2. Categorias</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/categories</code> - Listagem pública.</li>
-                <li><span class="method get">GET</span> <code>/categories/{id}</code> - Ver detalhes.</li>
-                <li><span class="method post">POST</span> <code>/categories</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
-                <li><span class="method put">PUT</span> <code>/categories/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
-                <li><span class="method delete">DELETE</span> <code>/categories/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>Categorias agrupam produtos. Apenas administradores podem gerenciar as categorias do sistema.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Create/Update Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method get">GET</span> <code>/categories</code> - Listagem pública.</li>
+                    <li><span class="method get">GET</span> <code>/categories/{id}</code> - Ver detalhes.</li>
+                    <li><span class="method post">POST</span> <code>/categories</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
+                    <li><span class="method put">PUT</span> <code>/categories/{id}</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
+                    <li><span class="method delete">DELETE</span> <code>/categories/{id}</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>Categorias agrupam produtos. Apenas administradores podem gerenciar as categorias do sistema.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Create/Update Payload:</strong>
+                <pre>{
   "name": "Eletrônicos",
   "description": "Smartphones, Laptops e acessórios"
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>const categories = await api.get('/categories');</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p><strong>POST/PUT/DELETE:</strong> Requer token de um usuário com <code>role: 'admin'</code>.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>const categories = await api.get('/categories');</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p><strong>POST/PUT/DELETE:</strong> Requer token de um usuário com <code>role: 'admin'</code>.</p>
+            </div>
+        </section>
 
-    <!-- 3. PRODUCTS -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">CATÁLOGO</span>
-            <h2 class="module-title">3. Produtos</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 3. PRODUCTS -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">CATÁLOGO</span>
+                <h2 class="module-title">3. Produtos</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/products</code> - Listagem pública.</li>
-                <li><span class="method get">GET</span> <code>/products/{id}</code> - Ver detalhes.</li>
-                <li><span class="method post">POST</span> <code>/products</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
-                <li><span class="method put">PUT</span> <code>/products/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
-                <li><span class="method delete">DELETE</span> <code>/products/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>Produtos são vinculados a uma categoria via <code>category_id</code>. O estoque é reduzido no checkout.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Create/Update Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method get">GET</span> <code>/products</code> - Listagem pública.</li>
+                    <li><span class="method get">GET</span> <code>/products/{id}</code> - Ver detalhes.</li>
+                    <li><span class="method post">POST</span> <code>/products</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Criar.</li>
+                    <li><span class="method put">PUT</span> <code>/products/{id}</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Editar.</li>
+                    <li><span class="method delete">DELETE</span> <code>/products/{id}</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Deletar.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>Produtos são vinculados a uma categoria via <code>category_id</code>. O estoque é reduzido no
+                    checkout.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Create/Update Payload:</strong>
+                <pre>{
   "category_id": "uuid-da-categoria",
   "name": "iPhone 15 Pro",
   "description": "128GB, Space Gray",
   "price": 8999.90,
   "stock": 50
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>const products = await api.get('/products');</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p>Use Query Params para filtros: <code>?category_id=...</code></p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>const products = await api.get('/products');</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p>Use Query Params para filtros: <code>?category_id=...</code></p>
+            </div>
+        </section>
 
-    <!-- 4. CARTS -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">USER AREA</span>
-            <h2 class="module-title">4. Carrinhos</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 4. CARTS -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">USER AREA</span>
+                <h2 class="module-title">4. Carrinhos</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/carts</code> - Ver carrinhos.</li>
-                <li><span class="method post">POST</span> <code>/carts</code> - Criar/Recuperar carrinho.</li>
-                <li><span class="method get">GET</span> <code>/carts/{cart_id}/items</code> - Listar itens.</li>
-                <li><span class="method post">POST</span> <code>/cart-items</code> - Adicionar produto.</li>
-                <li><span class="method put">PUT</span> <code>/cart-items/{id}</code> - Editar quantidade.</li>
-                <li><span class="method delete">DELETE</span> <code>/cart-items/{id}</code> - Remover item.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>O carrinho é persistente por usuário logado. Salve o ID retornado pelo <code>/carts</code>.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Add Item Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method get">GET</span> <code>/carts</code> - Ver carrinhos.</li>
+                    <li><span class="method post">POST</span> <code>/carts</code> - Criar/Recuperar carrinho.</li>
+                    <li><span class="method get">GET</span> <code>/carts/{cart_id}/items</code> - Listar itens.</li>
+                    <li><span class="method post">POST</span> <code>/cart-items</code> - Adicionar produto.</li>
+                    <li><span class="method put">PUT</span> <code>/cart-items/{id}</code> - Editar quantidade.</li>
+                    <li><span class="method delete">DELETE</span> <code>/cart-items/{id}</code> - Remover item.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>O carrinho é persistente por usuário logado. Salve o ID retornado pelo <code>/carts</code>.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Add Item Payload:</strong>
+                <pre>{
   "cart_id": "uuid-do-carrinho",
   "product_id": "uuid-do-produto",
   "quantity": 1
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>await api.post('/cart-items', { cart_id, product_id, quantity });</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p>Crie um carrinho vazio primeiro via <code>POST /carts</code>.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>await api.post('/cart-items', { cart_id, product_id, quantity });</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p>Crie um carrinho vazio primeiro via <code>POST /carts</code>.</p>
+            </div>
+        </section>
 
-    <!-- 5. CHECKOUT & ORDERS -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">FINALIZAÇÃO</span>
-            <h2 class="module-title">5. Checkout & Pedidos</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 5. CHECKOUT & ORDERS -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">FINALIZAÇÃO</span>
+                <h2 class="module-title">5. Checkout & Pedidos</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/checkout</code> - Finalizar carrinho (Requer Endereço).</li>
-                <li><span class="method get">GET</span> <code>/orders</code> - Meus pedidos.</li>
-                <li><span class="method get">GET</span> <code>/orders/{id}</code> - Detalhes do pedido.</li>
-                <li><span class="method get">GET</span> <code>/orders/{id}/items</code> - Listar itens do pedido.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>O Checkout limpa o carrinho, snapshots do endereço atual do usuário e gera um Pedido Pendente.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Checkout Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method post">POST</span> <code>/checkout</code> - Finalizar carrinho (Requer
+                        Endereço).</li>
+                    <li><span class="method get">GET</span> <code>/orders</code> - Meus pedidos.</li>
+                    <li><span class="method get">GET</span> <code>/orders/{id}</code> - Detalhes do pedido.</li>
+                    <li><span class="method get">GET</span> <code>/orders/{id}/items</code> - Listar itens do pedido.
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>O Checkout limpa o carrinho, snapshots do endereço atual do usuário e gera um Pedido Pendente.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Checkout Payload:</strong>
+                <pre>{
   "cart_id": "uuid-do-carrinho"
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>const order = await api.post('/checkout', { cart_id });</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p>Copie o ID do pedido retornado para usar no pagamento.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>const order = await api.post('/checkout', { cart_id });</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p>Copie o ID do pedido retornado para usar no pagamento.</p>
+            </div>
+        </section>
 
-    <!-- 6. PAYMENTS -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">LIQUIDAÇÃO</span>
-            <h2 class="module-title">6. Pagamentos</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 6. PAYMENTS -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">LIQUIDAÇÃO</span>
+                <h2 class="module-title">6. Pagamentos</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method post">POST</span> <code>/payments</code> - Pagar pedido.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>Muda status para <code>paid</code> e encerra o ciclo de compra.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Payment Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method post">POST</span> <code>/payments</code> - Pagar pedido.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>Muda status para <code>paid</code> e encerra o ciclo de compra.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Payment Payload:</strong>
+                <pre>{
   "order_id": "uuid-do-pedido",
   "payment_method": "pix" // pix, credit_card ou boleto
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>await api.post('/payments', { order_id, payment_method });</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p>O sistema simula uma transação imediata.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>await api.post('/payments', { order_id, payment_method });</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p>O sistema simula uma transação imediata.</p>
+            </div>
+        </section>
 
-    <!-- 7. SHIPMENTS -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">LOGÍSTICA</span>
-            <h2 class="module-title">7. Envios (Shipments)</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-        </div>
+        <!-- 7. SHIPMENTS -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">LOGÍSTICA</span>
+                <h2 class="module-title">7. Envios (Shipments)</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'flow')">Fluxo</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/shipments/order/{order_id}</code> - Acompanhar envio.</li>
-                <li><span class="method patch">PATCH</span> <code>/shipments/{id}</code> - <span class="status-badge admin-badge">ADMIN ONLY</span> Atualizar status/rastreio.</li>
-            </ul>
-        </div>
-        <div class="tab-content flow">
-            <p>1. Pedido é criado com status de envio <code>preparing</code>.<br>2. Admin posta o produto e gera o <code>tracking_code</code>.<br>3. Admin atualiza para <code>shipped</code>.<br>4. O ciclo encerra em <code>delivered</code>.</p>
-        </div>
-        <div class="tab-content payload">
-            <strong>Update Shipment (PATCH):</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method get">GET</span> <code>/shipments/order/{order_id}</code> - Acompanhar envio.
+                    </li>
+                    <li><span class="method patch">PATCH</span> <code>/shipments/{id}</code> - <span
+                            class="status-badge admin-badge">ADMIN ONLY</span> Atualizar status/rastreio.</li>
+                </ul>
+            </div>
+            <div class="tab-content flow">
+                <p>1. Pedido é criado com status de envio <code>preparing</code>.<br>2. Admin posta o produto e gera o
+                    <code>tracking_code</code>.<br>3. Admin atualiza para <code>shipped</code>.<br>4. O ciclo encerra em
+                    <code>delivered</code>.</p>
+            </div>
+            <div class="tab-content payload">
+                <strong>Update Shipment (PATCH):</strong>
+                <pre>{
   "status": "shipped",
   "tracking_code": "BR123456789X"
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>const shipment = await api.get(`/shipments/order/${orderId}`);</pre>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>const shipment = await api.get(`/shipments/order/${orderId}`);</pre>
+            </div>
+        </section>
 
-    <!-- 8. ADDRESSES -->
-    <section class="module-section">
-        <div class="module-header">
-            <span class="status-badge">USER AREA</span>
-            <h2 class="module-title">8. Endereços</h2>
-        </div>
-        <div class="tabs">
-            <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
-            <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
-            <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
-            <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
-        </div>
+        <!-- 8. ADDRESSES -->
+        <section class="module-section">
+            <div class="module-header">
+                <span class="status-badge">USER AREA</span>
+                <h2 class="module-title">8. Endereços</h2>
+            </div>
+            <div class="tabs">
+                <button class="tab-trigger active" onclick="showTab(this, 'overview')">Overview</button>
+                <button class="tab-trigger" onclick="showTab(this, 'payload')">Payloads</button>
+                <button class="tab-trigger" onclick="showTab(this, 'frontend')">Frontend</button>
+                <button class="tab-trigger" onclick="showTab(this, 'insomnia')">Insomnia</button>
+            </div>
 
-        <div class="tab-content overview active">
-            <ul class="desc-list">
-                <li><span class="method get">GET</span> <code>/addresses</code> - Ver meu endereço.</li>
-                <li><span class="method post">POST</span> <code>/addresses</code> - Criar ou Atualizar.</li>
-                <li><span class="method put">PUT</span> <code>/addresses</code> - Editar campos específicos.</li>
-                <li><span class="method delete">DELETE</span> <code>/addresses</code> - Remover endereço.</li>
-            </ul>
-        </div>
-        <div class="tab-content payload">
-            <strong>Address Payload:</strong>
-            <pre>{
+            <div class="tab-content overview active">
+                <ul class="desc-list">
+                    <li><span class="method get">GET</span> <code>/addresses</code> - Ver meu endereço.</li>
+                    <li><span class="method post">POST</span> <code>/addresses</code> - Criar ou Atualizar.</li>
+                    <li><span class="method put">PUT</span> <code>/addresses</code> - Editar campos específicos.</li>
+                    <li><span class="method delete">DELETE</span> <code>/addresses</code> - Remover endereço.</li>
+                </ul>
+            </div>
+            <div class="tab-content payload">
+                <strong>Address Payload:</strong>
+                <pre>{
   "street": "Rua das Flores",
   "number": 123,
   "complement": "Apto 45",
@@ -445,29 +578,30 @@
   "state": "SP",
   "zip_code": 1001000
 }</pre>
-        </div>
-        <div class="tab-content frontend">
-            <pre>await api.post('/addresses', addressData);</pre>
-        </div>
-        <div class="tab-content insomnia">
-            <p>O endereço é 1:1 com o usuário. Somente um endereço é mantido por conta.</p>
-        </div>
-    </section>
+            </div>
+            <div class="tab-content frontend">
+                <pre>await api.post('/addresses', addressData);</pre>
+            </div>
+            <div class="tab-content insomnia">
+                <p>O endereço é 1:1 com o usuário. Somente um endereço é mantido por conta.</p>
+            </div>
+        </section>
 
-    <footer>
-        <p>&copy; 2026 Ultimate API Guide. Enhanced for Developers.</p>
-    </footer>
-</div>
+        <footer>
+            <p>&copy; 2026 Ultimate API Guide. Enhanced for Developers.</p>
+        </footer>
+    </div>
 
-<script>
-    function showTab(trigger, tabClass) {
-        const section = trigger.closest('.module-section');
-        section.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-        trigger.classList.add('active');
-        section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        section.querySelector(`.tab-content.${tabClass}`).classList.add('active');
-    }
-</script>
+    <script>
+        function showTab(trigger, tabClass) {
+            const section = trigger.closest('.module-section');
+            section.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+            trigger.classList.add('active');
+            section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            section.querySelector(`.tab-content.${tabClass}`).classList.add('active');
+        }
+    </script>
 
 </body>
+
 </html>

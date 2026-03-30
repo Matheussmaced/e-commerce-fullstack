@@ -17,11 +17,11 @@ Route::get('/products/{id}', function ($id) {
     ]);
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::get('/cart', function () {
+    return Inertia::render('Cart/Index');
+});
 
-    Route::get('/cart', function () {
-        return Inertia::render('Cart/Index');
-    });
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', function () {
         return Inertia::render('Checkout/Index');
