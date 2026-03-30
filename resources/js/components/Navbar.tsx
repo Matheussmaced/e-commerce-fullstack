@@ -3,12 +3,20 @@
 import { useEffect, useState, useRef } from "react"
 import { LogOut, LogOutIcon, ShoppingCart, User } from "lucide-react"
 import { Link } from "@inertiajs/react"
+import { useInitials } from "@/hooks/use-initials"
+import api from "@/services/api"
+import { User as UserType } from "@/types"
+import ProfileModal from "./ProfileModal"
 
 export default function Navbar() {
 
   const [scrolled, setScrolled] = useState(false)
   const [openUserMenu, setOpenUserMenu] = useState(false)
   const [isLogged, setIsLogged] = useState(false)
+  const [user, setUser] = useState<UserType | null>(null)
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
+
+  const getInitials = useInitials()
 
 
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -58,6 +66,16 @@ export default function Navbar() {
 
     if (token) {
       setIsLogged(true)
+
+      // Buscar dados do usuário
+      api.get("/me")
+        .then(response => {
+          setUser(response.data)
+        })
+        .catch(() => {
+          setIsLogged(false)
+          localStorage.removeItem("token")
+        })
     }
   }, [])
 
@@ -96,51 +114,82 @@ export default function Navbar() {
           </a>
 
           {/* User */}
-          {isLogged ? (
+          <div className="relative" ref={dropdownRef}>
 
             <button
-              onClick={logout}
-              className="hover:text-red-500 transition cursor-pointer"
+              onClick={() => setOpenUserMenu(!openUserMenu)}
+              className="hover:text-black transition cursor-pointer flex items-center gap-2 group"
             >
-              <LogOutIcon />
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center transition
+                ${openUserMenu ? "bg-zinc-900 text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-black"}
+              `}>
+                <User size={20} />
+              </div>
             </button>
 
-          ) : (
+            {openUserMenu && (
 
-            <div className="relative" ref={dropdownRef}>
+              <div className="absolute right-0 mt-4 w-56 rounded-2xl border border-zinc-100 bg-white/95 shadow-2xl py-3 px-2 backdrop-blur-xl animate-in fade-in zoom-in duration-200">
 
-              <button
-                onClick={() => setOpenUserMenu(!openUserMenu)}
-                className="hover:text-gray-600 transition cursor-pointer"
-              >
-                <User size={22} />
-              </button>
+                {isLogged ? (
 
-              {openUserMenu && (
+                  <>
+                    <div className="px-4 py-3 mb-2 border-b border-zinc-50">
+                      <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Logado como</p>
+                      <p className="text-sm font-bold text-zinc-900 truncate">{user?.name}</p>
+                    </div>
 
-                <div className="absolute right-0 mt-4 w-40 rounded-xl border border-gray-200 bg-white shadow-xl py-2">
+                    <button
+                      onClick={() => {
+                        setOpenUserMenu(false)
+                        setIsProfileModalOpen(true)
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-black rounded-xl transition cursor-pointer"
+                    >
+                      <User size={18} />
+                      Ver Perfil
+                    </button>
 
-                  <Link
-                    href="/login"
-                    className="block px-4 py-2 text-sm hover:bg-zinc-100"
-                  >
-                    Login
-                  </Link>
+                    <button
+                      onClick={() => {
+                        setOpenUserMenu(false)
+                        logout()
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 rounded-xl transition cursor-pointer"
+                    >
+                      <LogOutIcon size={18} />
+                      Sair
+                    </button>
+                  </>
 
-                  <Link
-                    href="/register"
-                    className="block px-4 py-2 text-sm hover:bg-zinc-100"
-                  >
-                    Registrar
-                  </Link>
+                ) : (
 
-                </div>
+                  <>
+                    <Link
+                      href="/login"
+                      onClick={() => setOpenUserMenu(false)}
+                      className="block px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-black rounded-xl transition"
+                    >
+                      Login
+                    </Link>
 
-              )}
+                    <Link
+                      href="/register"
+                      onClick={() => setOpenUserMenu(false)}
+                      className="block px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-black rounded-xl transition"
+                    >
+                      Registrar
+                    </Link>
+                  </>
 
-            </div>
+                )}
 
-          )}
+              </div>
+
+            )}
+
+          </div>
 
           {/* Cart */}
           <Link
@@ -160,6 +209,11 @@ export default function Navbar() {
 
       </div>
 
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+        onUpdate={(updatedUser) => setUser(updatedUser)}
+      />
     </nav>
 
   )

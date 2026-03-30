@@ -34,6 +34,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/confirm-password', [AuthController::class, 'confirmPassword']);
         Route::post('/email/verification-notification', [AuthController::class, 'resendVerification']);
 
+        // Perfil do Usuário
+        Route::get('/me', [\App\Http\Controllers\Api\Profile\ProfileController::class, 'show']);
+        Route::put('/me', [\App\Http\Controllers\Api\Profile\ProfileController::class, 'update']);
+        Route::delete('/me', [\App\Http\Controllers\Api\Profile\ProfileController::class, 'destroy']);
+
         // Carrinho e Checkout
         Route::apiResource('carts', CartController::class);
         Route::get('/carts/{cart_id}/items', [CartItemController::class, 'index']);

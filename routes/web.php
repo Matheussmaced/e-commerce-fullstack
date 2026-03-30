@@ -21,12 +21,13 @@ Route::get('/cart', function () {
     return Inertia::render('(public)/Cart/Index');
 });
 
+Route::get('/checkout', function () {
+    return Inertia::render('(private)/Checkout/Index');
+});
+
+
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/checkout', function () {
-        return Inertia::render('(private)/Checkout/Index');
-    });
-
+    // Other routes that strictly require a session
 });
 
 require __DIR__.'/auth.php';
