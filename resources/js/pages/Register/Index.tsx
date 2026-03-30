@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { Link, router } from "@inertiajs/react"
+import api from "@/services/api"
 
 export default function Register() {
 
@@ -12,13 +13,26 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    password_confirmation: ""
+    password_confirmation: "",
+    role: "user"
   })
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    router.post("/register", form)
+    try {
+
+      const response = await api.post("/register", form)
+
+      const token = response.data.token
+
+      localStorage.setItem("token", token)
+
+      router.visit("/")
+
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -77,6 +91,7 @@ export default function Register() {
                   focus:outline-none
                   focus:ring-2
                   focus:ring-black
+                  text-black
                 "
                 placeholder="Seu nome"
               />
@@ -105,6 +120,7 @@ export default function Register() {
                   focus:outline-none
                   focus:ring-2
                   focus:ring-black
+                   text-black
                 "
                 placeholder="seu@email.com"
               />
@@ -135,6 +151,7 @@ export default function Register() {
                     focus:outline-none
                     focus:ring-2
                     focus:ring-black
+                     text-black
                   "
                   placeholder="••••••••"
                 />
@@ -181,6 +198,7 @@ export default function Register() {
                   focus:outline-none
                   focus:ring-2
                   focus:ring-black
+                   text-black
                 "
                 placeholder="••••••••"
               />
@@ -199,6 +217,7 @@ export default function Register() {
                 font-medium
                 hover:bg-zinc-800
                 transition
+                cursor-pointer
               "
             >
               Criar conta
