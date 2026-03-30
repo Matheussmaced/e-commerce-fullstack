@@ -1,12 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { ShoppingCart } from "lucide-react"
+import { useEffect, useState, useRef } from "react"
+import { ShoppingCart, User } from "lucide-react"
 import { Link } from "@inertiajs/react"
 
 export default function Navbar() {
 
   const [scrolled, setScrolled] = useState(false)
+  const [openUserMenu, setOpenUserMenu] = useState(false)
+
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +19,28 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll)
 
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // fechar dropdown ao clicar fora
+  useEffect(() => {
+
+    function handleClickOutside(event: MouseEvent) {
+
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenUserMenu(false)
+      }
+
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+
   }, [])
 
   return (
@@ -29,8 +54,8 @@ export default function Navbar() {
         bg-white/60
 
         ${scrolled
-          ? "rounded-2xl border border-zinc-100 shadow-2xl shadow-black/40 px-6 py-6 scale-[0.96]"
-          : "rounded-none border-transparent px-10 py-5 scale-100"
+          ? "rounded-2xl border border-zinc-100 shadow-2xl shadow-black/40 px-15 py-6 scale-[0.96]"
+          : "rounded-none border-transparent px-15 py-5 scale-100"
         }
       `}
     >
@@ -52,9 +77,49 @@ export default function Navbar() {
             Produtos
           </a>
 
+          {/* User */}
+          <div className="relative" ref={dropdownRef}>
+
+            <button
+              onClick={() => setOpenUserMenu(!openUserMenu)}
+              className="hover:text-gray-600 transition-colors duration-300 cursor-pointer"
+            >
+              <User size={22} />
+            </button>
+
+            {openUserMenu && (
+
+              <div className="
+                absolute right-0 mt-4 w-40
+                rounded-xl border border-zinc-200
+                bg-white shadow-xl
+                py-2
+              ">
+
+                <Link
+                  href="/login"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-100 transition"
+                >
+                  Login
+                </Link>
+
+                <Link
+                  href="/register"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-100 transition"
+                >
+                  Registrar
+                </Link>
+
+              </div>
+
+            )}
+
+          </div>
+
+          {/* Cart */}
           <Link
             href="/cart"
-            className="relative hover:text-white transition-colors duration-300"
+            className="relative hover:text-gray-700 transition-colors duration-300"
           >
 
             <ShoppingCart size={22} />

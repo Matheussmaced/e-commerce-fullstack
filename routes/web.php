@@ -21,6 +21,14 @@ Route::get('/cart', function () {
     return Inertia::render('Cart/Index');
 });
 
+Route::get('/login', function () {
+    return Inertia::render('Login/Index');
+});
+
+Route::get('/register', function () {
+    return Inertia::render('Register/Index');
+});
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/checkout', function () {
