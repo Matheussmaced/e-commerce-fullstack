@@ -1,54 +1,24 @@
-# Etapa 1: Build do frontend React + Vite
-FROM node:20-alpine AS frontend-build
+FROM php:8.2-cli
+
+# Instalar dependências do sistema
+RUN apt-get update && apt-get install -y \
+    git unzip curl libsqlite3-dev nodejs npm
+
+# Instalar Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copia package.json + lock
-COPY package*.json ./
-
-# Instala dependências
-RUN npm install
-
-# Copia todo o frontend necessário
-COPY resources/js ./resources/js
-COPY resources/css ./resources/css
-COPY vite.config.js ./
-COPY tsconfig.json ./
-
-# Build do React + Vite
-RUN npm run build
-
-# Etapa 2: Backend Laravel + frontend compilado
-FROM php:8.2-fpm
-
-WORKDIR /var/www/html
-
-# Instala dependências do sistema para Laravel
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    libpng-dev \
-    libonig-dev \
-    curl \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd
-
-# Instala Composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-# Copia todos os arquivos do Laravel
 COPY . .
 
-# Instala dependências do Laravel
 RUN composer install --no-dev --optimize-autoloader
+RUN npm install
+RUN npm run build
 
-# Copia frontend compilado para a pasta public do Laravel
-COPY --from=frontend-build /app/dist ./public/dist
+RUN php artisan key:generate || true
+RUN touch database/database.sqlite
+RUN php artisan migrate --force || true
 
-# Ajuste permissões para storage e bootstrap/cache
-RUN chown -R www-data:www-data storage bootstrap/cache
+EXPOSE 10000
 
-EXPOSE 9000
-
-CMD ["php-fpm"]
+CMD php artisan serve --host=0.0.0.0 --port=10000
