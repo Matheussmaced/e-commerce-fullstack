@@ -107,7 +107,7 @@ export default function Navbar() {
 
           ) : (
 
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
 
               <button
                 onClick={() => setOpenUserMenu(!openUserMenu)}
@@ -118,7 +118,7 @@ export default function Navbar() {
 
               {openUserMenu && (
 
-                <div className="absolute right-0 mt-4 w-40 rounded-xl border bg-white shadow-xl py-2">
+                <div className="absolute right-0 mt-4 w-40 rounded-xl border border-gray-200 bg-white shadow-xl py-2">
 
                   <Link
                     href="/login"

@@ -3,11 +3,12 @@ import api from "@/services/api";
 import ProductCard from "@/components/ProductCard";
 import AppLayout from "@/layouts/AppLayout";
 import Reveal from "@/components/ui/Reveal";
+import { Product, Category } from "@/types";
 
 export default function Home() {
 
-  const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const ecommerceInfo = [
@@ -40,7 +41,7 @@ export default function Home() {
   return (
     <AppLayout>
 
-      <div className="min-h-screen  text-black pt-6">
+      <div className="min-h-screen pt-6">
 
         {/* HERO */}
         <Reveal>
@@ -54,7 +55,7 @@ export default function Home() {
                   Nova coleção
                 </p>
 
-                <h1 className="text-6xl font-bold leading-tight mb-6">
+                <h1 className="text-black text-6xl font-bold leading-tight mb-6">
                   Vista seu <br /> estilo
                 </h1>
 
@@ -82,7 +83,7 @@ export default function Home() {
                         .getElementById("produtos")
                         ?.scrollIntoView({ behavior: "smooth" })
                     }
-                    className="border px-8 py-3 rounded-md hover:bg-black hover:text-white transition"
+                    className="border text-black px-8 py-3 rounded-md hover:bg-black hover:text-white transition"
                   >
                     Ver coleção
                   </button>
@@ -113,7 +114,7 @@ export default function Home() {
                   onClick={() => setSelectedCategory("all")}
                   className={`px-6 py-2 rounded-full border text-sm transition ${selectedCategory === "all"
                     ? "bg-black text-white border-black"
-                    : "border-zinc-300 hover:border-black"
+                    : "border-zinc-300 hover:border-black text-black"
                     }`}
                 >
                   Todos
@@ -125,8 +126,8 @@ export default function Home() {
                     key={category.id}
                     onClick={() => setSelectedCategory(category.slug)}
                     className={`px-6 py-2 rounded-full border text-sm transition ${selectedCategory === category.slug
-                      ? "bg-black text-white border-black"
-                      : "border-zinc-300 hover:border-black"
+                      ? "bg-black text-white border-black text-black"
+                      : "border-zinc-300 hover:border-black text-black"
                       }`}
                   >
                     {category.name}

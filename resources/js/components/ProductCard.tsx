@@ -1,8 +1,9 @@
-import api from "@/services/api"
+import { Product } from "@/types";
+import api from "@/services/api";
 
 type Props = {
-  product: any
-}
+  product: Product;
+};
 
 export default function ProductCard({ product }: Props) {
 
@@ -46,7 +47,7 @@ export default function ProductCard({ product }: Props) {
       {/* info */}
       <div className="mt-4 space-y-1">
 
-        <h3 className="text-sm font-medium">
+        <h3 className="text-sm font-medium text-black">
           {product.name}
         </h3>
 
@@ -54,7 +55,7 @@ export default function ProductCard({ product }: Props) {
           {product.description}
         </p>
 
-        <p className="font-semibold mt-2">
+        <p className="font-semibold mt-2 text-black">
           R$ {product.price.toFixed(2)}
         </p>
 

@@ -38,3 +38,26 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    description?: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    price: number;
+    image: string;
+    category_id?: number;
+    category?: Category;
+    category_slug?: string;
+    created_at?: string;
+    updated_at?: string;
+}
