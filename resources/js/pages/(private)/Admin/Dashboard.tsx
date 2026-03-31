@@ -456,7 +456,7 @@ export default function Dashboard() {
                               <tr key={product.id} className="hover:bg-zinc-50/50 transition-colors">
                                 <td className="py-3 px-4">
                                   <div className="w-12 h-12 rounded-lg bg-zinc-100 overflow-hidden border border-zinc-200 flex-shrink-0">
-                                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                    <img src={product.image || "https://picsum.photos/400/500"} alt={product.name} className="w-full h-full object-cover" />
                                   </div>
                                 </td>
                                 <td className="py-3 px-4">
