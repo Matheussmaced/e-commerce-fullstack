@@ -245,11 +245,6 @@
                                         "type": "string",
                                         "format": "password",
                                         "example": "password"
-                                    },
-                                    "role": {
-                                        "description": "Opcional: 'user' ou 'admin'",
-                                        "type": "string",
-                                        "example": "user"
                                     }
                                 },
                                 "type": "object"
@@ -1409,6 +1404,25 @@
                 ]
             }
         },
+        "/api/v1/orders/all": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Listar todos os pedidos (Admin Only)",
+                "operationId": "99225f7a460a8afa76f69b2480997453",
+                "responses": {
+                    "200": {
+                        "description": "Lista de todos os pedidos"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/v1/payments": {
             "post": {
                 "tags": [
@@ -2077,6 +2091,38 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Excluir um usuário",
+                "operationId": "12f0965d0f1daad037a557199b53fddf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário excluído com sucesso"
                     },
                     "404": {
                         "description": "Usuário não encontrado"
