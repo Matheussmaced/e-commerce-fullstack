@@ -59,8 +59,8 @@ Route::prefix('v1')->group(function () {
 
         // Pedidos
         Route::get('/orders', [OrderController::class, 'index']);
-        Route::get('/orders/{id}', [OrderController::class, 'show']);
-        Route::get('/orders/{order_id}/items', [OrderItemController::class, 'index']);
+        Route::get('/orders/{id}', [OrderController::class, 'show'])->whereUuid('id');
+        Route::get('/orders/{order_id}/items', [OrderItemController::class, 'index'])->whereUuid('order_id');
 
         // 3. Rotas de Administrador
         Route::middleware('admin')->group(function () {
@@ -77,6 +77,11 @@ Route::prefix('v1')->group(function () {
             // Gerenciamento de Usuários
             Route::get('/users', [UserController::class, 'index']);
             Route::get('/users/{id}', [UserController::class, 'show']);
+            Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+            // Gerenciamento de Pedidos
+            Route::get('/orders/all', [OrderController::class, 'adminIndex']);
         });
     });
 });
+

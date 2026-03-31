@@ -12,7 +12,8 @@ class OrderController extends Controller
 {
     public function __construct(
         protected OrderService $orderService
-    ) {}
+    ) {
+    }
 
     #[OA\Get(
         path: "/api/v1/orders",
@@ -101,5 +102,23 @@ class OrderController extends Controller
         return response()->json(
             $this->orderService->getOrderDetails($id)
         );
+    }
+
+    #[OA\Get(
+        path: "/api/v1/orders/all",
+        summary: "Listar todos os pedidos (Admin Only)",
+        tags: ["Orders"],
+        security: [["sanctum" => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "Lista de todos os pedidos"
+            )
+        ]
+    )]
+    public function adminIndex(): JsonResponse
+    {
+        $orders = \App\Models\Order::with(['user', 'shipment'])->orderBy('created_at', 'desc')->get();
+        return response()->json($orders);
     }
 }

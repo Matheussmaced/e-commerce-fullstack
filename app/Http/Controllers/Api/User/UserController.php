@@ -39,6 +39,7 @@ class UserController extends Controller
             'id',
             'name',
             'email',
+            'role',
             'created_at'
         )->get();
 
@@ -89,5 +90,37 @@ class UserController extends Controller
         )->findOrFail($id);
 
         return response()->json($user);
+    }
+
+    #[OA\Delete(
+        path: "/api/v1/users/{id}",
+        summary: "Excluir um usuário",
+        tags: ["Users"],
+        security: [["sanctum" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "id",
+                in: "path",
+                required: true,
+                description: "ID do usuário",
+                schema: new OA\Schema(type: "string", format: "uuid")
+            )
+        ],
+        responses: [
+            new OA\Response(response: 200, description: "Usuário excluído com sucesso"),
+            new OA\Response(response: 404, description: "Usuário não encontrado")
+        ]
+    )]
+    public function destroy(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (auth()->id() === $user->id) {
+            return response()->json(['message' => 'Você não pode excluir sua própria conta.'], 403);
+        }
+
+        $user->delete();
+
+        return response()->json(['message' => 'Usuário excluído com sucesso.']);
     }
 }
