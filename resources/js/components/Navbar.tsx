@@ -7,6 +7,7 @@ import { useInitials } from "@/hooks/use-initials"
 import api from "@/services/api"
 import { User as UserType } from "@/types"
 import ProfileModal from "./ProfileModal"
+import { useCart } from "@/contexts/CartContext"
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [isLogged, setIsLogged] = useState(false)
   const [user, setUser] = useState<UserType | null>(null)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
+  const { totalQuantity } = useCart()
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -181,7 +183,7 @@ export default function Navbar() {
           >
             <ShoppingCart size={22} />
             <span className="absolute -top-2 -right-2 text-xs bg-green-500 text-black px-1.5 rounded-full font-bold">
-              2
+              {totalQuantity}
             </span>
           </Link>
         </div>

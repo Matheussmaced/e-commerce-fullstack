@@ -39,7 +39,14 @@ class CartController extends Controller
     public function index()
     {
         return response()->json(
-            $this->cartService->index()
+            $this->cartService->index(auth()->id())
+        );
+    }
+
+    public function active()
+    {
+        return response()->json(
+            $this->cartService->findOrCreateActive(auth()->id())
         );
     }
 

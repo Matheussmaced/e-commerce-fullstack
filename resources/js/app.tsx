@@ -12,13 +12,19 @@ declare global {
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+import { CartProvider } from './contexts/CartContext';
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        root.render(
+            <CartProvider>
+                <App {...props} />
+            </CartProvider>
+        );
     },
     progress: {
         color: '#4B5563',

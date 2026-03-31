@@ -12,7 +12,8 @@ use OpenApi\Attributes as OA;
 class CartItemController extends Controller
 {
     public function __construct(
-        protected CartItemService $cartItemService
+        protected CartItemService $cartItemService,
+        protected \App\Services\CartService $cartService
     ) {}
 
     #[OA\Get(
@@ -88,9 +89,15 @@ class CartItemController extends Controller
     )]
     public function store(StoreCartItemRequest $request)
     {
-        $item = $this->cartItemService->create(
-            $request->validated()
-        );
+        $data = $request->validated();
+
+        // Se não houver cart_id, buscar ou criar o carrinho ativo do usuário
+        if (!isset($data['cart_id'])) {
+            $cart = $this->cartService->findOrCreateActive(auth()->id());
+            $data['cart_id'] = $cart->id;
+        }
+
+        $item = $this->cartItemService->create($data);
 
         return response()->json($item, 201);
     }

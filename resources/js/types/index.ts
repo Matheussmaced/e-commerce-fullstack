@@ -62,3 +62,22 @@ export interface Product {
     created_at?: string;
     updated_at?: string;
 }
+export interface Cart {
+    id: string;
+    user_id: number;
+    status: 'active' | 'completed' | 'cancelled';
+    items?: CartItem[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface CartItem {
+    id: string;
+    cart_id: string;
+    product_id: number;
+    product: Product;
+    quantity: number;
+    price: number;
+    created_at?: string;
+    updated_at?: string;
+}

@@ -1,17 +1,15 @@
 import { Product } from "@/types";
-import api from "@/services/api";
+import { useCart } from "@/contexts/CartContext";
 
 type Props = {
   product: Product;
 };
 
 export default function ProductCard({ product }: Props) {
+  const { addToCart } = useCart();
 
-  const addToCart = async () => {
-    await api.post("/cart-items", {
-      product_id: product.id,
-      quantity: 1
-    })
+  const handleAddToCart = async () => {
+    await addToCart(product, 1);
   }
 
   return (
@@ -28,7 +26,7 @@ export default function ProductCard({ product }: Props) {
 
         {/* botão hover */}
         <button
-          onClick={addToCart}
+          onClick={handleAddToCart}
           className="
             absolute bottom-4 left-1/2 -translate-x-1/2
             bg-black text-white text-sm

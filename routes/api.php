@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/me', [\App\Http\Controllers\Api\Profile\ProfileController::class, 'destroy']);
 
         // Carrinho e Checkout
+        Route::get('/carts/active', [CartController::class, 'active']);
         Route::apiResource('carts', CartController::class);
         Route::get('/carts/{cart_id}/items', [CartItemController::class, 'index']);
         Route::post('/cart-items', [CartItemController::class, 'store']);

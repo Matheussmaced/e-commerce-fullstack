@@ -13,9 +13,23 @@ class CartService
         $this->cartRepository = $cartRepository;
     }
 
-    public function index()
+    public function index($userId = null)
     {
-        return $this->cartRepository->getAll();
+        return $this->cartRepository->getAll($userId);
+    }
+
+    public function findOrCreateActive($userId)
+    {
+        $cart = $this->cartRepository->findActiveByUser($userId);
+
+        if (!$cart) {
+            $cart = $this->cartRepository->create([
+                'user_id' => $userId,
+                'status' => 'active'
+            ]);
+        }
+
+        return $cart;
     }
 
     public function show($id)
