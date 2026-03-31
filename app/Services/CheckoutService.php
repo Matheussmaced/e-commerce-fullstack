@@ -17,9 +17,9 @@ class CheckoutService
         protected ShipmentService $shipmentService
     ) {}
 
-    public function processCheckout(string $cartId)
+    public function processCheckout(string $cartId, array $addressData)
     {
-        return DB::transaction(function () use ($cartId) {
+        return DB::transaction(function () use ($cartId, $addressData) {
             $cart = Cart::findOrFail($cartId);
             $cartItems = CartItem::where('cart_id', $cartId)->with('product')->get();
 
@@ -35,24 +35,17 @@ class CheckoutService
                 $totalAmount += $item->price * $item->quantity;
             }
 
-            $user = $cart->user;
-            $address = $user->address;
-
-            if (!$address) {
-                throw new Exception('User address not found. Please provide an address before checkout.');
-            }
-
             $order = Order::create([
-                'user_id' => $cart->user_id,
+                'user_id' => $cart->user_id ?? auth()->id(),
                 'total_amount' => $totalAmount,
                 'status' => 'pending',
-                'street' => $address->street,
-                'number' => $address->number,
-                'complement' => $address->complement,
-                'neighborhood' => $address->neighborhood,
-                'city' => $address->city,
-                'state' => $address->state,
-                'zip_code' => $address->zip_code,
+                'street' => $addressData['street'],
+                'number' => $addressData['number'],
+                'complement' => $addressData['complement'] ?? null,
+                'neighborhood' => $addressData['neighborhood'],
+                'city' => $addressData['city'],
+                'state' => $addressData['state'],
+                'zip_code' => $addressData['zip_code'],
             ]);
 
             foreach ($cartItems as $item) {

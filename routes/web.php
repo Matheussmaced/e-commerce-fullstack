@@ -25,6 +25,20 @@ Route::get('/checkout', function () {
     return Inertia::render('(private)/Checkout/Index');
 });
 
+Route::get('/orders', function () {
+    return Inertia::render('(private)/Orders/Index');
+});
+
+Route::get('/checkout/success', function () {
+    return Inertia::render('(public)/Checkout/Success');
+});
+
+Route::get('/shipments/tracking/{id}', function ($id) {
+    return Inertia::render('(public)/Shipments/Tracking', [
+        'order_id' => $id
+    ]);
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('(private)/Admin/Dashboard');
 });

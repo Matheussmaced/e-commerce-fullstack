@@ -76,8 +76,10 @@ class CheckoutController extends Controller
     public function store(CheckoutRequest $request)
     {
         try {
+            $validated = $request->validated();
             $order = $this->checkoutService->processCheckout(
-                $request->validated()['cart_id']
+                $validated['cart_id'],
+                $validated['address']
             );
 
             return response()->json($order, 201);

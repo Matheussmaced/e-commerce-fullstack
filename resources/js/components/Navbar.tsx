@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { LayoutDashboard, LogOutIcon, ShoppingCart, User, Menu, X } from "lucide-react"
+import { LayoutDashboard, LogOutIcon, ShoppingCart, User, Menu, X, Package } from "lucide-react"
 import { Link } from "@inertiajs/react"
 import { useInitials } from "@/hooks/use-initials"
 import api from "@/services/api"
@@ -130,6 +130,15 @@ export default function Navbar() {
                       Ver Perfil
                     </button>
 
+                    <Link
+                      href="/orders"
+                      onClick={() => setOpenUserMenu(false)}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-black rounded-xl transition cursor-pointer"
+                    >
+                      <Package size={18} />
+                      Meus Pedidos
+                    </Link>
+
                     <button
                       onClick={() => {
                         setOpenUserMenu(false)
@@ -256,6 +265,15 @@ export default function Navbar() {
                   <User size={18} />
                   Ver Perfil
                 </button>
+
+                <Link
+                  href="/orders"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-sm text-zinc-600 hover:bg-zinc-50 hover:text-black rounded-xl transition cursor-pointer"
+                >
+                  <Package size={18} />
+                  Meus Pedidos
+                </Link>
 
                 <button
                   onClick={() => {
