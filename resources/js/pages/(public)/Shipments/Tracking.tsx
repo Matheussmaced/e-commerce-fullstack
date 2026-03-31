@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import AppLayout from "@/layouts/AppLayout"
-import { Package, Truck, Home, Clock, AlertCircle } from "lucide-react"
+import { Package, Truck, Home, Clock, AlertCircle, ShoppingBag } from "lucide-react"
 import api from "@/services/api"
 
 interface Shipment {
@@ -99,10 +99,10 @@ export default function Tracking({ order_id }: { order_id: string }) {
           <div className="relative flex justify-between items-center max-w-2xl mx-auto mb-20 px-4">
             {/* Background Line */}
             <div className="absolute top-1/2 left-0 w-full h-[2px] bg-zinc-100 -translate-y-1/2 z-0" />
-            
+
             {/* Progress Line */}
-            <div 
-              className="absolute top-1/2 left-0 h-[2px] bg-black -translate-y-1/2 z-0 transition-all duration-1000 ease-out" 
+            <div
+              className="absolute top-1/2 left-0 h-[2px] bg-black -translate-y-1/2 z-0 transition-all duration-1000 ease-out"
               style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
             />
 
@@ -167,13 +167,13 @@ export default function Tracking({ order_id }: { order_id: string }) {
         </div>
 
         <div className="flex justify-center mt-12">
-           <button 
-             onClick={() => window.location.href = '/products'}
-             className="text-zinc-400 hover:text-black transition flex items-center gap-2 font-medium"
-           >
-             <ShoppingBag size={18} />
-             Continuar Comprando
-           </button>
+          <button
+            onClick={() => window.location.href = '/#produtos'}
+            className="text-zinc-400 hover:text-black transition flex items-center gap-2 font-medium"
+          >
+            <ShoppingBag size={18} />
+            Continuar Comprando
+          </button>
         </div>
       </div>
     </AppLayout>

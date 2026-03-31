@@ -90,7 +90,7 @@ export default function Navbar() {
         {/* --- DESKTOP MENU --- */}
         <div className="hidden md:flex items-center gap-8 text-black">
           <Link
-            href="/products"
+            href="/#produtos"
             className="text-sm font-medium hover:text-gray-700 transition-colors duration-300"
           >
             Produtos
