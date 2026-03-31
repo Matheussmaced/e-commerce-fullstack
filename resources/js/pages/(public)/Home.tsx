@@ -35,7 +35,7 @@ export default function Home() {
     selectedCategory === "all"
       ? products
       : products.filter(
-        product => product?.category_slug === selectedCategory
+        product => product?.category?.slug === selectedCategory
       );
 
   return (
@@ -126,7 +126,7 @@ export default function Home() {
                     key={category.id}
                     onClick={() => setSelectedCategory(category.slug)}
                     className={`px-6 py-2 rounded-full border text-sm transition ${selectedCategory === category.slug
-                      ? "bg-black text-white border-black text-black"
+                      ? "bg-black text-white border-black"
                       : "border-zinc-300 hover:border-black text-black"
                       }`}
                   >
