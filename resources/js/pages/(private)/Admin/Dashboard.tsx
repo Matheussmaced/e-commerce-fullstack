@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import AppLayout from "@/layouts/AppLayout";
 import Reveal from "@/components/ui/Reveal";
 import api from "@/services/api";
-import { Category, User } from "@/types";
-import { PlusCircle, Package, Layers, CheckCircle2, AlertCircle, Loader2, Users, ShoppingCart, Trash2 } from "lucide-react";
+import { Category, User, Product } from "@/types";
+import { PlusCircle, Package, Layers, CheckCircle2, AlertCircle, Loader2, Users, ShoppingCart, Trash2, Edit } from "lucide-react";
 
 interface Shipment {
   id: string;
@@ -26,6 +26,7 @@ interface Order {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<"product" | "category" | "order" | "user">("product");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ export default function Dashboard() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // Product Form State
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [productForm, setProductForm] = useState({
     name: "",
     description: "",
@@ -80,10 +82,20 @@ export default function Dashboard() {
   useEffect(() => {
     if (authorized) {
       fetchCategories();
+      fetchProducts();
       fetchOrders();
       fetchUsers();
     }
   }, [authorized]);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await api.get("/products");
+      setProducts(res.data);
+    } catch (err) {
+      console.error("Erro ao buscar produtos", err);
+    }
+  };
 
   const fetchCategories = async () => {
     try {
@@ -118,21 +130,64 @@ export default function Dashboard() {
     setMessage(null);
 
     try {
-      await api.post("/products", {
+      const payload = {
         ...productForm,
         price: parseFloat(productForm.price),
         stock: parseInt(productForm.stock)
-      });
-      setMessage({ type: "success", text: "Produto adicionado com sucesso!" });
+      };
+
+      if (editingProduct) {
+        await api.put(`/products/${editingProduct.id}`, payload);
+        setMessage({ type: "success", text: "Produto atualizado com sucesso!" });
+      } else {
+        await api.post("/products", payload);
+        setMessage({ type: "success", text: "Produto adicionado com sucesso!" });
+      }
       setProductForm({ name: "", description: "", price: "", stock: "", category_id: "", image: "" });
+      setEditingProduct(null);
+      fetchProducts();
     } catch (err: any) {
       setMessage({
         type: "error",
-        text: err.response?.data?.message || "Erro ao adicionar produto."
+        text: err.response?.data?.message || (editingProduct ? "Erro ao atualizar produto." : "Erro ao adicionar produto.")
       });
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleProductDelete = async (productId: number) => {
+    if (!confirm("Tem certeza que deseja excluir este produto permanentemente?")) return;
+
+    try {
+      await api.delete(`/products/${productId}`);
+      setMessage({ type: "success", text: "Produto excluído com sucesso!" });
+      fetchProducts();
+    } catch (err: any) {
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Erro ao excluir produto."
+      });
+    }
+  };
+
+  const startEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setProductForm({
+      name: product.name,
+      description: product.description,
+      price: product.price.toString(),
+      // @ts-ignore
+      stock: product.stock?.toString() || "0",
+      category_id: product.category_id?.toString() || "",
+      image: product.image || ""
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const cancelEditProduct = () => {
+    setEditingProduct(null);
+    setProductForm({ name: "", description: "", price: "", stock: "", category_id: "", image: "" });
   };
 
   const handleCategorySubmit = async (e: React.FormEvent) => {
@@ -279,11 +334,11 @@ export default function Dashboard() {
                   <div className="space-y-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="p-3 bg-zinc-100 rounded-2xl">
-                        <PlusCircle className="text-black" size={24} />
+                        {editingProduct ? <Edit className="text-black" size={24} /> : <PlusCircle className="text-black" size={24} />}
                       </div>
                       <div>
-                        <h2 className="text-xl font-semibold">Novo Produto</h2>
-                        <p className="text-sm text-zinc-500">Cadastre um item no inventário.</p>
+                        <h2 className="text-xl font-semibold">{editingProduct ? "Editar Produto" : "Novo Produto"}</h2>
+                        <p className="text-sm text-zinc-500">{editingProduct ? "Altere as informações do produto." : "Cadastre um item no inventário."}</p>
                       </div>
                     </div>
 
@@ -358,17 +413,95 @@ export default function Dashboard() {
                           onChange={e => setProductForm({ ...productForm, image: e.target.value })}
                         />
                       </div>
-                      <div className="md:col-span-2 pt-4">
+                      <div className="md:col-span-2 pt-4 flex gap-4">
+                        {editingProduct && (
+                          <button
+                            type="button"
+                            onClick={cancelEditProduct}
+                            className="flex-1 bg-white border border-zinc-200 text-black py-4 rounded-2xl font-semibold hover:bg-zinc-50 active:scale-[0.98] transition-all duration-200"
+                          >
+                            Cancelar
+                          </button>
+                        )}
                         <button
                           type="submit"
                           disabled={loading}
-                          className="w-full bg-black text-white py-4 rounded-2xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 disabled:bg-zinc-300"
+                          className="flex-[2] bg-black text-white py-4 rounded-2xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 disabled:bg-zinc-300"
                         >
-                          {loading ? <Loader2 className="animate-spin" size={20} /> : <PlusCircle size={20} />}
-                          {loading ? "Processando..." : "Cadastrar Produto"}
+                          {loading ? <Loader2 className="animate-spin" size={20} /> : (editingProduct ? <Edit size={20} /> : <PlusCircle size={20} />)}
+                          {loading ? "Processando..." : (editingProduct ? "Atualizar Produto" : "Cadastrar Produto")}
                         </button>
                       </div>
                     </form>
+
+                    {/* Product List */}
+                    <div className="pt-10 border-t border-zinc-100 mt-10">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-lg font-semibold">Produtos Cadastrados</h3>
+                      </div>
+
+                      <div className="overflow-x-auto rounded-xl border border-zinc-200">
+                        <table className="w-full text-left border-collapse">
+                          <thead>
+                            <tr className="bg-zinc-50 border-b border-zinc-200 text-sm font-medium text-black">
+                              <th className="py-3 px-4">Imagem</th>
+                              <th className="py-3 px-4">Nome / Categoria</th>
+                              <th className="py-3 px-4">Preço</th>
+                              <th className="py-3 px-4">Estoque</th>
+                              <th className="py-3 px-4 text-right">Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-sm divide-y divide-zinc-100">
+                            {products.map((product) => (
+                              <tr key={product.id} className="hover:bg-zinc-50/50 transition-colors">
+                                <td className="py-3 px-4">
+                                  <div className="w-12 h-12 rounded-lg bg-zinc-100 overflow-hidden border border-zinc-200 flex-shrink-0">
+                                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                                  </div>
+                                </td>
+                                <td className="py-3 px-4">
+                                  <div className="font-medium text-black truncate max-w-[200px]" title={product.name}>{product.name}</div>
+                                  <div className="text-xs text-zinc-500">{product.category?.name || 'Sem Categoria'}</div>
+                                </td>
+                                <td className="py-3 px-4 font-semibold text-green-700">
+                                  R$ {Number(product.price).toFixed(2)}
+                                </td>
+                                <td className="py-3 px-4">
+                                  {/* @ts-ignore */}
+                                  <span className={`px-2 py-1 rounded text-xs font-semibold ${product.stock && product.stock > 0 ? 'bg-indigo-50 text-indigo-700' : 'bg-rose-50 text-rose-700'}`}>
+                                    {/* @ts-ignore */}
+                                    {product.stock || 0} unid.
+                                  </span>
+                                </td>
+                                <td className="py-3 px-4 text-right">
+                                  <div className="flex items-center justify-end gap-2">
+                                    <button
+                                      onClick={() => startEditProduct(product)}
+                                      className="p-2 text-zinc-500 hover:bg-zinc-100 hover:text-black rounded-lg transition-colors"
+                                      title="Editar Produto"
+                                    >
+                                      <Edit size={16} />
+                                    </button>
+                                    <button
+                                      onClick={() => handleProductDelete(product.id)}
+                                      className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+                                      title="Excluir Produto"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            {products.length === 0 && (
+                              <tr>
+                                <td colSpan={5} className="py-6 text-center text-zinc-500">Nenhum produto cadastrado.</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 )}
 
