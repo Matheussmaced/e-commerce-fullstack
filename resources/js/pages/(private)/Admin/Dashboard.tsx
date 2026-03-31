@@ -47,6 +47,7 @@ export default function Dashboard() {
   });
 
   // Category Form State
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryForm, setCategoryForm] = useState({
     name: "",
     slug: ""
@@ -196,18 +197,54 @@ export default function Dashboard() {
     setMessage(null);
 
     try {
-      await api.post("/categories", categoryForm);
-      setMessage({ type: "success", text: "Categoria adicionada com sucesso!" });
+      if (editingCategory) {
+        await api.put(`/categories/${editingCategory.id}`, categoryForm);
+        setMessage({ type: "success", text: "Categoria atualizada com sucesso!" });
+      } else {
+        await api.post("/categories", categoryForm);
+        setMessage({ type: "success", text: "Categoria adicionada com sucesso!" });
+      }
       setCategoryForm({ name: "", slug: "" });
+      setEditingCategory(null);
       fetchCategories();
     } catch (err: any) {
       setMessage({
         type: "error",
-        text: err.response?.data?.message || "Erro ao adicionar categoria."
+        text: err.response?.data?.message || (editingCategory ? "Erro ao atualizar categoria." : "Erro ao adicionar categoria.")
       });
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCategoryDelete = async (categoryId: number) => {
+    if (!confirm("Tem certeza que deseja excluir esta categoria? Produtos vinculados podem ser afetados!")) return;
+
+    try {
+      await api.delete(`/categories/${categoryId}`);
+      setMessage({ type: "success", text: "Categoria excluída com sucesso!" });
+      fetchCategories();
+    } catch (err: any) {
+      setMessage({
+        type: "error",
+        text: err.response?.data?.message || "Erro ao excluir categoria."
+      });
+    }
+  };
+
+  const startEditCategory = (category: Category) => {
+    setEditingCategory(category);
+    setCategoryForm({
+      name: category.name,
+      // @ts-ignore - slug is implicitly string on our input but maybe not in TS interface
+      slug: (category as any).slug || category.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const cancelEditCategory = () => {
+    setEditingCategory(null);
+    setCategoryForm({ name: "", slug: "" });
   };
 
   const handleShipmentStatusChange = async (shipmentId: string, newStatus: string) => {
@@ -509,11 +546,11 @@ export default function Dashboard() {
                   <div className="space-y-8">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="p-3 bg-zinc-100 rounded-2xl">
-                        <Layers className="text-black" size={24} />
+                        {editingCategory ? <Edit className="text-black" size={24} /> : <Layers className="text-black" size={24} />}
                       </div>
                       <div>
-                        <h2 className="text-xl font-semibold">Nova Categoria</h2>
-                        <p className="text-sm text-zinc-500">Defina uma nova categoria para organizar produtos.</p>
+                        <h2 className="text-xl font-semibold">{editingCategory ? "Editar Categoria" : "Nova Categoria"}</h2>
+                        <p className="text-sm text-zinc-500">{editingCategory ? "Altere o nome e o slug da categoria." : "Defina uma nova categoria para organizar produtos."}</p>
                       </div>
                     </div>
 
@@ -546,17 +583,76 @@ export default function Dashboard() {
                           onChange={e => setCategoryForm({ ...categoryForm, slug: e.target.value })}
                         />
                       </div>
-                      <div className="pt-4">
+                      <div className="pt-4 flex gap-4">
+                        {editingCategory && (
+                          <button
+                            type="button"
+                            onClick={cancelEditCategory}
+                            className="flex-1 bg-white border border-zinc-200 text-black py-4 rounded-2xl font-semibold hover:bg-zinc-50 active:scale-[0.98] transition-all duration-200"
+                          >
+                            Cancelar
+                          </button>
+                        )}
                         <button
                           type="submit"
                           disabled={loading}
-                          className="w-full bg-black text-white py-4 rounded-2xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 disabled:bg-zinc-300"
+                          className="flex-[2] bg-black text-white py-4 rounded-2xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 disabled:bg-zinc-300"
                         >
-                          {loading ? <Loader2 className="animate-spin" size={20} /> : <PlusCircle size={20} />}
-                          {loading ? "Processando..." : "Cadastrar Categoria"}
+                          {loading ? <Loader2 className="animate-spin" size={20} /> : (editingCategory ? <Edit size={20} /> : <PlusCircle size={20} />)}
+                          {loading ? "Processando..." : (editingCategory ? "Atualizar Categoria" : "Cadastrar Categoria")}
                         </button>
                       </div>
                     </form>
+
+                    {/* Category List */}
+                    <div className="pt-10 border-t border-zinc-100 mt-10">
+                      <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-lg font-semibold">Categorias Cadastradas</h3>
+                      </div>
+
+                      <div className="overflow-x-auto rounded-xl border border-zinc-200">
+                        <table className="w-full text-left border-collapse">
+                          <thead>
+                            <tr className="bg-zinc-50 border-b border-zinc-200 text-sm font-medium text-black">
+                              <th className="py-3 px-4">Nome</th>
+                              <th className="py-3 px-4">Slug</th>
+                              <th className="py-3 px-4 text-right">Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-sm divide-y divide-zinc-100">
+                            {categories.map((category) => (
+                              <tr key={category.id} className="hover:bg-zinc-50/50 transition-colors">
+                                <td className="py-3 px-4 font-medium text-black">{category.name}</td>
+                                <td className="py-3 px-4 text-zinc-500">{/* @ts-ignore */}{category.slug || "sem-slug"}</td>
+                                <td className="py-3 px-4 text-right">
+                                  <div className="flex items-center justify-end gap-2">
+                                    <button
+                                      onClick={() => startEditCategory(category)}
+                                      className="p-2 text-zinc-500 hover:bg-zinc-100 hover:text-black rounded-lg transition-colors"
+                                      title="Editar Categoria"
+                                    >
+                                      <Edit size={16} />
+                                    </button>
+                                    <button
+                                      onClick={() => handleCategoryDelete(category.id)}
+                                      className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-colors"
+                                      title="Excluir Categoria"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            {categories.length === 0 && (
+                              <tr>
+                                <td colSpan={3} className="py-6 text-center text-zinc-500">Nenhuma categoria cadastrada.</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 )}
 
